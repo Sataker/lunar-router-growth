@@ -23,8 +23,6 @@
             --text-dim: #8888a0;
             --text-muted: #55556a;
             --white: #ffffff;
-            --upvote: #ff4500;
-            --comment-bg: #161622;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,13 +44,12 @@
             z-index: 9999;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 1rem 2rem;
-            background: rgba(10, 10, 15, 0.9);
+            background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
@@ -69,16 +66,9 @@
             text-transform: uppercase;
         }
 
-        .nav-logo a {
-            color: inherit;
-            text-decoration: none;
-        }
+        .nav-logo a { color: inherit; text-decoration: none; }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
 
         .nav-links a {
             color: var(--text-dim);
@@ -90,19 +80,6 @@
 
         .nav-links a:hover { color: var(--accent-light); }
 
-        .back-link {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .back-link:hover { color: var(--accent-light); }
-
-        /* Hero */
         .hero {
             padding: 8rem 2rem 4rem;
             text-align: center;
@@ -137,7 +114,7 @@
         .hero h1 {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
-            line-height: 1.15;
+            line-height: 1.1;
             margin-bottom: 1.5rem;
             color: var(--white);
             max-width: 800px;
@@ -153,7 +130,7 @@
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-dim);
             max-width: 650px;
             margin: 0 auto 2rem;
@@ -163,395 +140,293 @@
             display: flex;
             gap: 3rem;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
-        .hero-stat .number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--white);
-        }
+        .hero-stat .number { font-size: 2rem; font-weight: 700; color: var(--reddit); }
 
         .hero-stat .label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* How it works */
-        .how-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 2rem 4rem;
-        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
 
-        .how-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+        .story { margin-bottom: 4rem; position: relative; }
 
-        .how-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .how-card .step {
-            width: 36px;
-            height: 36px;
+        .story-number {
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            display: inline-flex;
+            background: var(--surface);
+            border: 2px solid var(--reddit);
+            display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--reddit);
+            z-index: 2;
         }
 
-        .how-card:nth-child(1) .step { background: rgba(255, 69, 0, 0.15); color: var(--reddit); border: 1px solid rgba(255, 69, 0, 0.3); }
-        .how-card:nth-child(2) .step { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0, 206, 201, 0.3); }
-        .how-card:nth-child(3) .step { background: var(--accent-glow); color: var(--accent-light); border: 1px solid rgba(108, 92, 231, 0.3); }
+        .story-meta {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+        }
 
-        .how-card h4 {
-            font-size: 0.95rem;
+        .subreddit-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--reddit-glow);
+            color: var(--reddit);
+            border: 1px solid rgba(255, 107, 58, 0.25);
+        }
+
+        .pain-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--accent-glow);
+            color: var(--accent-light);
+            border: 1px solid rgba(108, 92, 231, 0.25);
+        }
+
+        .reddit-post {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .reddit-post:hover { border-color: rgba(255, 107, 58, 0.3); }
+
+        .post-header {
+            padding: 1.25rem 1.5rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .post-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .avatar-poster { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
+        .avatar-helper { background: linear-gradient(135deg, var(--green), #059669); color: white; }
+        .avatar-reinforcer { background: linear-gradient(135deg, var(--accent), #7c3aed); color: white; }
+
+        .post-user-info { display: flex; flex-direction: column; }
+        .post-username { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+        .post-time { font-size: 0.7rem; color: var(--text-muted); }
+
+        .account-label {
+            margin-left: auto;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .label-poster { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+        .label-helper { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0, 206, 201, 0.25); }
+        .label-reinforcer { background: var(--accent-glow); color: var(--accent-light); border: 1px solid rgba(108, 92, 231, 0.25); }
+
+        .post-title {
+            padding: 0 1.5rem;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--white);
-            margin-bottom: 0.5rem;
+            line-height: 1.35;
+            margin-bottom: 0.75rem;
         }
 
-        .how-card p {
-            font-size: 0.8rem;
+        .post-body {
+            padding: 0 1.5rem 1.25rem;
+            font-size: 0.88rem;
             color: var(--text-dim);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            font-family: inherit;
         }
+
+        .post-body code {
+            background: var(--surface-2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--green);
+        }
+
+        .post-actions {
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .post-action { display: flex; align-items: center; gap: 0.35rem; }
+        .upvotes { color: var(--reddit); font-weight: 600; }
+
+        .comment-thread {
+            margin-left: 2rem;
+            border-left: 2px solid var(--border);
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .comment {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            margin-left: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .comment:hover { border-color: rgba(0, 206, 201, 0.3); }
+        .comment.reinforcer:hover { border-color: rgba(108, 92, 231, 0.3); }
+        .comment .post-body { padding-bottom: 1rem; }
+
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--green);
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-block .comment-text { color: var(--text-muted); }
+        .code-block .highlight { color: var(--accent-light); }
+
+        .playbook { margin-top: 4rem; margin-bottom: 4rem; }
 
         .section-label {
             font-size: 0.7rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--reddit);
-            text-align: center;
-            margin-bottom: 0.5rem;
+            color: var(--accent-light);
+            margin-bottom: 1rem;
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: 700;
-            color: var(--white);
-            text-align: center;
-        }
-
-        .divider {
-            width: 60px;
-            height: 1px;
-            background: var(--border);
-            margin: 3rem auto;
-        }
-
-        /* Story Cards */
-        .stories-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-        }
-
-        .story-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-bottom: 3rem;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-
-        .story-card:hover {
-            border-color: rgba(255, 107, 58, 0.4);
-        }
-
-        .story-header {
-            padding: 1.5rem 2rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .story-number {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--reddit-glow);
-            border: 1px solid rgba(255, 107, 58, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--reddit);
-            flex-shrink: 0;
-        }
-
-        .story-meta {
-            flex: 1;
-        }
-
-        .story-meta .scenario {
-            font-size: 0.7rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .story-meta .subreddit {
-            font-size: 0.85rem;
-            color: var(--reddit);
-            font-weight: 600;
-        }
-
-        .story-pain-tag {
-            display: inline-block;
-            padding: 0.2rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .pain-cost { background: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.25); }
-        .pain-visibility { background: rgba(241, 196, 15, 0.12); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
-        .pain-complexity { background: rgba(155, 89, 182, 0.12); color: #9b59b6; border: 1px solid rgba(155, 89, 182, 0.25); }
-        .pain-lockin { background: rgba(52, 152, 219, 0.12); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.25); }
-        .pain-reliability { background: rgba(0, 206, 201, 0.12); color: var(--green); border: 1px solid rgba(0, 206, 201, 0.25); }
-        .pain-evaluation { background: rgba(108, 92, 231, 0.12); color: var(--accent-light); border: 1px solid rgba(108, 92, 231, 0.25); }
-
-        /* Reddit Post Simulation */
-        .reddit-post {
-            padding: 0 2rem 1.5rem;
-        }
-
-        .post-chrome {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .post-chrome .avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b3a, #e17055);
-        }
-
-        .post-chrome .username { color: var(--text-dim); font-weight: 500; }
-        .post-chrome .dot { opacity: 0.4; }
-
-        .post-title {
-            font-size: 1.1rem;
-            font-weight: 600;
             color: var(--white);
             margin-bottom: 1rem;
-            line-height: 1.4;
+            line-height: 1.2;
         }
 
-        .post-body {
-            font-size: 0.85rem;
+        .section-subtitle {
+            font-size: 1.05rem;
             color: var(--text-dim);
-            line-height: 1.7;
-            white-space: pre-wrap;
-            font-family: inherit;
-            background: var(--comment-bg);
-            padding: 1.25rem 1.5rem;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            max-width: 650px;
+            margin-bottom: 3rem;
         }
 
-        .post-actions {
-            display: flex;
+        .rules-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
-            margin-top: 1rem;
-            padding: 0.5rem 0;
         }
 
-        .post-action {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Comments */
-        .comments-section {
-            border-top: 1px solid var(--border);
-            padding: 1.5rem 2rem;
-        }
-
-        .comments-label {
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-        }
-
-        .comment {
-            padding-left: 1.25rem;
-            border-left: 2px solid var(--border);
-            margin-bottom: 1.5rem;
-        }
-
-        .comment:last-child { margin-bottom: 0; }
-
-        .comment.helper { border-left-color: var(--green); }
-        .comment.reinforcer { border-left-color: var(--accent-light); }
-
-        .comment-chrome {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.72rem;
-        }
-
-        .comment-chrome .avatar {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-        }
-
-        .comment.helper .avatar { background: linear-gradient(135deg, var(--green), #00b894); }
-        .comment.reinforcer .avatar { background: linear-gradient(135deg, var(--accent-light), var(--accent)); }
-
-        .comment-chrome .username { color: var(--text-dim); font-weight: 500; }
-        .comment-chrome .role {
-            font-size: 0.6rem;
-            padding: 0.1rem 0.4rem;
-            border-radius: 3px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .comment.helper .role { background: var(--green-glow); color: var(--green); }
-        .comment.reinforcer .role { background: var(--accent-glow); color: var(--accent-light); }
-
-        .comment-chrome .dot { color: var(--text-muted); opacity: 0.4; }
-        .comment-chrome .time { color: var(--text-muted); }
-
-        .comment-body {
-            font-size: 0.82rem;
-            color: var(--text-dim);
-            line-height: 1.7;
-            white-space: pre-wrap;
-        }
-
-        .comment-body code {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.78rem;
-            color: var(--green);
-        }
-
-        .comment-body .code-block {
-            display: block;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin: 0.75rem 0;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.75rem;
-            color: var(--green);
-            line-height: 1.6;
-        }
-
-        .comment-votes {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        .comment-votes .upvotes { color: var(--upvote); font-weight: 600; }
-
-        /* Deployment notes */
-        .notes-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-        }
-
-        .note-card {
+        .rule-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.75rem 2rem;
-            margin-bottom: 1.5rem;
+            padding: 1.75rem;
         }
 
-        .note-card h4 {
-            font-size: 0.95rem;
-            color: var(--white);
-            margin-bottom: 0.75rem;
-        }
+        .rule-card h4 { color: var(--white); font-size: 1rem; margin-bottom: 0.75rem; }
 
-        .note-card ul {
-            list-style: none;
-        }
-
-        .note-card li {
-            font-size: 0.82rem;
+        .rule-card p, .rule-card li {
+            font-size: 0.85rem;
             color: var(--text-dim);
-            padding: 0.35rem 0;
-            padding-left: 1.25rem;
-            position: relative;
             line-height: 1.6;
         }
 
-        .note-card li::before {
+        .rule-card ul { list-style: none; margin-top: 0.5rem; }
+
+        .rule-card li {
+            padding: 0.25rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .rule-card li::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 0.75rem;
-            width: 5px;
-            height: 5px;
+            top: 50%;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: var(--accent);
+            transform: translateY(-50%);
+        }
+
+        .timing-card {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .timing-step { text-align: center; }
+        .timing-step .time { font-size: 1.5rem; font-weight: 700; color: var(--reddit); margin-bottom: 0.25rem; }
+        .timing-step .action { font-size: 0.85rem; color: var(--text-dim); }
+        .timing-step .detail { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+        .divider {
+            width: 100%;
+            max-width: 900px;
+            margin: 3rem auto;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
         }
 
         .warning-box {
+            margin-top: 2rem;
             padding: 1.5rem 2rem;
-            background: rgba(231, 76, 60, 0.08);
-            border: 1px solid rgba(231, 76, 60, 0.25);
+            background: var(--orange-glow);
+            border: 1px solid var(--orange);
             border-radius: 12px;
-            margin-bottom: 1.5rem;
         }
 
-        .warning-box h4 {
-            color: #e74c3c;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
+        .warning-box h4 { color: var(--orange); font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .warning-box p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
 
-        .warning-box p {
-            font-size: 0.82rem;
-            color: var(--text-dim);
-            line-height: 1.6;
-        }
-
-        /* Footer */
         footer {
             text-align: center;
             padding: 4rem 2rem;
@@ -562,12 +437,15 @@
         footer p { font-size: 0.8rem; color: var(--text-muted); }
         footer .prepared { margin-top: 0.5rem; color: var(--text-dim); font-size: 0.85rem; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .how-grid { grid-template-columns: 1fr; }
-            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .rules-grid { grid-template-columns: 1fr; }
+            .timing-card { grid-template-columns: 1fr; }
+            .comment-thread { margin-left: 0.5rem; }
+            .comment { margin-left: 0.5rem; }
+            .story-number { display: none; }
+            .story-meta { padding-left: 0; }
+            .hero-stats { flex-direction: column; gap: 1rem; }
             .nav-links { display: none; }
-            .reddit-post, .comments-section, .story-header { padding-left: 1.25rem; padding-right: 1.25rem; }
         }
     </style>
 </head>
@@ -576,21 +454,20 @@
     <nav>
         <div class="nav-logo"><a href="index.html">Lunar Router Growth</a></div>
         <ul class="nav-links">
-            <li><a href="index.html">Main Strategy</a></li>
+            <li><a href="index.html">Strategy</a></li>
             <li><a href="#stories">Stories</a></li>
             <li><a href="#playbook">Playbook</a></li>
         </ul>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
-        <div class="hero-badge">Community Seeding Strategy</div>
+        <div class="hero-badge">Seeded Engagement Strategy</div>
         <h1>Organic <span>Story-Style</span> Reddit Posts</h1>
-        <p>Real-looking scenarios where someone posts a pain point and the community naturally recommends Lunar Router. Three accounts per story: poster, helper, reinforcer.</p>
+        <p>Real pain points. Natural recommendations. Each story is a scripted conversation where a user describes a problem and a commenter teaches how Lunar Router solves it.</p>
         <div class="hero-stats">
             <div class="hero-stat">
                 <div class="number">10</div>
-                <div class="label">Stories</div>
+                <div class="label">Story Scenarios</div>
             </div>
             <div class="hero-stat">
                 <div class="number">10</div>
@@ -603,58 +480,28 @@
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <div class="how-section">
-        <div class="section-label">Mechanism</div>
-        <div class="section-title">How each story works</div>
-        <div class="how-grid">
-            <div class="how-card">
-                <div class="step">A</div>
-                <h4>The Poster</h4>
-                <p>Posts a realistic pain point about AI costs, complexity, or visibility. Never mentions Lunar Router.</p>
-            </div>
-            <div class="how-card">
-                <div class="step">B</div>
-                <h4>The Helper</h4>
-                <p>Replies 2-4 hours later with a natural recommendation. Includes install steps and real numbers.</p>
-            </div>
-            <div class="how-card">
-                <div class="step">C</div>
-                <h4>The Reinforcer</h4>
-                <p>Comments 1-3 hours after with a new detail or use case. Adds credibility through social proof.</p>
-            </div>
-        </div>
-    </div>
-
     <div class="divider"></div>
 
-    <!-- STORIES -->
-    <section id="stories">
-        <div class="section-label">10 Stories</div>
-        <div class="section-title" style="margin-bottom: 3rem;">Ready-to-Deploy Scenarios</div>
+    <div class="container" id="stories">
 
-        <div class="stories-container">
-
-            <!-- STORY 1 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">1</div>
-                    <div class="story-meta">
-                        <div class="scenario">The $800/month Wake-Up Call</div>
-                        <div class="subreddit">r/ChatGPTPro</div>
+        <!-- STORY 1 -->
+        <div class="story">
+            <div class="story-number">1</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/ChatGPTPro</span>
+                <span class="pain-tag">No visibility on costs</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/devops_marcus</span>
+                        <span class="post-time">Posted 4 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-cost">Cost</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/devmark_io</span>
-                        <span class="dot">&middot;</span>
-                        <span>14h</span>
-                    </div>
-                    <div class="post-title">My OpenAI bill hit $800 this month and I have literally zero idea which calls are costing me this much</div>
-                    <div class="post-body">Running a SaaS app with about 15 different GPT-4o calls. Customer support summarization, lead scoring, email drafts, data extraction from PDFs, etc.
+                <div class="post-title">My OpenAI bill hit $800 this month and I have literally zero idea which calls are costing me this much</div>
+                <div class="post-body">Running a SaaS app with about 15 different GPT-4o calls. Customer support summarization, lead scoring, email drafts, data extraction from PDFs, etc.
 
 Started at ~$200/mo in January. Now $800 and climbing.
 
@@ -663,86 +510,82 @@ The problem is I have NO visibility. OpenAI's usage dashboard just shows total t
 I tried adding logging to every call but it's a mess -- different endpoints, different wrappers, tokens counted differently...
 
 Anyone solved this? I need per-feature cost tracking without rewriting my whole backend.</div>
-                    <div class="post-actions">
-                        <span class="post-action">247 upvotes</span>
-                        <span class="post-action">89 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">247</span> upvotes</span>
+                    <span class="post-action">89 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/quiet_infra</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/self_hosted_ai</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">Had the exact same problem. $600/mo and no idea where it went.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">Had the exact same problem. $600/mo and no idea where it went.
 
 What fixed it for me: I put a gateway between my app and OpenAI. It logs every single call -- model, tokens, latency, cost -- automatically. Didn't change any code except one line.
 
 The tool is called Lunar Router (open source):
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Then in your code, change just the base_url:
-<span class="code-block"># before
+make start-full</div>Then in your code, change just the base_url:
+<div class="code-block"><span class="comment-text"># before</span>
 client = OpenAI(base_url="https://api.openai.com/v1")
 
-# after
-client = OpenAI(base_url="http://localhost:8080/v1")</span>
-That's literally it. Same SDK, same code, everything works the same. But now you get a dashboard on localhost:3000 that shows cost per call, per model, per endpoint.
+<span class="comment-text"># after</span>
+client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)</div>That's literally it. Same SDK, same code, everything works the same. But now you get a dashboard on localhost:3000 that shows cost per call, per model, per endpoint.
 
 After 3 days I found out 42% of my bill was coming from one feature that was sending the entire PDF as context every time instead of chunking. Fixed it in 20 min.
 
-The other thing -- once you can SEE each call, you realize half of them don't need GPT-4o. Simple extraction? DeepSeek does it for 18x less. Classification? Groq Llama is basically free. You just change the model string:
-
-<code>model="deepseek/deepseek-chat"</code>
-
-Same response format. The gateway translates everything.
-
-Went from $600 to $110/mo in two weeks.</div>
-                        <div class="comment-votes"><span class="upvotes">183</span> upvotes</div>
+The other thing -- once you can SEE each call, you realize half of them don't need GPT-4o. Simple extraction? DeepSeek does it for 18x less. Classification? Groq Llama is basically free.
+<div class="code-block">model=<span class="highlight">"deepseek/deepseek-chat"</span></div>Same response format. The gateway translates everything. Went from $600 to $110/mo in two weeks.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">182</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/saas_ben</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/ml_infra_eng</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">+1 for Lunar Router. The dashboard alone saved me hours of debugging. Being able to see every call with latency and cost in real-time is something OpenAI should have built into their own platform honestly.</div>
-                        <div class="comment-votes"><span class="upvotes">67</span> upvotes</div>
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">+1 for Lunar Router. The dashboard alone saved me hours of debugging. Being able to see every call with latency and cost in real-time is something OpenAI should have built into their own platform honestly.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">67</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 2 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">2</div>
-                    <div class="story-meta">
-                        <div class="scenario">Startup Founder Panicking About Runway</div>
-                        <div class="subreddit">r/SaaS</div>
+        <div class="divider"></div>
+
+        <!-- STORY 2 -->
+        <div class="story">
+            <div class="story-number">2</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/SaaS</span>
+                <span class="pain-tag">Startup runway burn</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/seed_stage_cto</span>
+                        <span class="post-time">Posted 6 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-cost">Cost</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/founder_mia</span>
-                        <span class="dot">&middot;</span>
-                        <span>11h</span>
-                    </div>
-                    <div class="post-title">Our AI feature is eating 40% of our runway and investors are asking questions</div>
-                    <div class="post-body">We're a 4-person startup. Built an AI-powered feature that customers love -- it's our main differentiator.
+                <div class="post-title">Our AI feature is eating 40% of our runway and investors are asking questions</div>
+                <div class="post-body">We're a 4-person startup. Built an AI-powered feature that customers love -- it's our main differentiator.
 
 Problem: it costs us $3,200/mo in API calls. Our total monthly burn is $8k. Investors noticed and asked why 40% of our spend is going to OpenAI.
 
@@ -753,217 +596,205 @@ We're using GPT-4o for everything because it was fastest to ship. I KNOW some of
 3. We don't have time to rewrite API integrations for Anthropic/Mistral/etc -- different SDKs, different formats
 
 Has anyone actually migrated a production app to use multiple models without it becoming a full rewrite?</div>
-                    <div class="post-actions">
-                        <span class="post-action">312 upvotes</span>
-                        <span class="post-action">127 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">312</span> upvotes</span>
+                    <span class="post-action">134 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/shipped_it_twice</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/fullstack_ai_dev</span>
+                            <span class="post-time">3 hours later</span>
                         </div>
-                        <div class="comment-body">We were in a similar spot -- 31 endpoints, all hitting GPT-4o.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">We were in a similar spot -- 31 endpoints, all hitting GPT-4o.
 
 The trick is you DON'T rewrite your integrations. There's an open-source gateway called Lunar Router that sits between your app and any LLM provider. It translates everything to OpenAI format, so your code stays exactly the same.
 
 Setup takes 5 minutes:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-In your code, change one line:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")</span>
-Now you can use ANY provider with the same SDK:
-<span class="code-block">model="openai/gpt-4o"          -- keep for complex stuff
-model="anthropic/claude-sonnet" -- better for long context
-model="deepseek/deepseek-chat" -- 18x cheaper for simple tasks
-model="groq/llama-3.3-70b"     -- near-zero cost, ultra fast</span>
-No new SDKs. No format changes. Same OpenAI SDK for everything.
+make start-full</div>In your code, change one line:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)</div>Now you can use ANY provider with the same SDK:
+<div class="code-block">model=<span class="highlight">"openai/gpt-4o"</span>          <span class="comment-text"># keep for complex stuff</span>
+model=<span class="highlight">"anthropic/claude-sonnet"</span> <span class="comment-text"># better for long context</span>
+model=<span class="highlight">"deepseek/deepseek-chat"</span> <span class="comment-text"># 18x cheaper for simple tasks</span>
+model=<span class="highlight">"groq/llama-3.3-70b"</span>     <span class="comment-text"># near-zero cost, ultra fast</span></div>No new SDKs. No format changes. Same OpenAI SDK for everything.
 
 We went through our 31 endpoints in one afternoon. Tested each with cheaper models, kept GPT-4o only where quality actually dropped. Result: $3,400/mo to $580/mo.
 
 That's the kind of number that makes investors happy.</div>
-                        <div class="comment-votes"><span class="upvotes">241</span> upvotes</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">198</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/early_stage_cto</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/platform_lead</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">This is the way. We did the same migration. The dashboard it comes with (localhost:3000) lets you A/B test models per endpoint too -- you can see quality + cost side by side before committing to a cheaper model.</div>
-                        <div class="comment-votes"><span class="upvotes">89</span> upvotes</div>
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">This is the way. We did the same migration. The dashboard it comes with (localhost:3000) lets you A/B test models per endpoint too -- you can see quality + cost side by side before committing to a cheaper model.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">73</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 3 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">3</div>
-                    <div class="story-meta">
-                        <div class="scenario">Solo Dev Drowning in SDKs</div>
-                        <div class="subreddit">r/LocalLLaMA</div>
+        <div class="divider"></div>
+
+        <!-- STORY 3 -->
+        <div class="story">
+            <div class="story-number">3</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/LocalLLaMA</span>
+                <span class="pain-tag">SDK spaghetti code</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/solo_ai_builder</span>
+                        <span class="post-time">Posted 3 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-complexity">Complexity</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/llm_burnout</span>
-                        <span class="dot">&middot;</span>
-                        <span>9h</span>
-                    </div>
-                    <div class="post-title">How are you guys managing 5+ LLM providers without losing your mind?</div>
-                    <div class="post-body">I'm a solo dev building an AI writing tool. Started with just OpenAI. Then added Anthropic because Claude is better for long documents. Then Groq for speed. Then DeepSeek because it's cheap for simple stuff.
+                <div class="post-title">How are you guys managing 5+ LLM providers without losing your mind?</div>
+                <div class="post-body">I'm a solo dev building an AI writing tool. Started with just OpenAI. Then added Anthropic because Claude is better for long documents. Then Groq for speed. Then DeepSeek because it's cheap for simple stuff.
 
 Now I have 4 different SDKs, 4 different auth systems, 4 different response formats, and 4 different error handling patterns. My code looks like a switch statement from hell:
-
-if provider == "openai":
-    # one way
+<div class="code-block">if provider == "openai":
+    <span class="comment-text"># one way</span>
 elif provider == "anthropic":
-    # completely different way
+    <span class="comment-text"># completely different way</span>
 elif provider == "groq":
-    # yet another way
-
-Every time I add a feature, I have to implement it 4 times. Every time a provider changes their API, something breaks.
+    <span class="comment-text"># yet another way</span></div>Every time I add a feature, I have to implement it 4 times. Every time a provider changes their API, something breaks.
 
 There has to be a better way. How are you handling this?</div>
-                    <div class="post-actions">
-                        <span class="post-action">189 upvotes</span>
-                        <span class="post-action">73 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">189</span> upvotes</span>
+                    <span class="post-action">72 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/api_janitor</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/gateway_guy</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">I had the exact same spaghetti code. 5 providers, 5 SDKs, wanted to die every time Anthropic changed their message format.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">I had the exact same spaghetti code. 5 providers, 5 SDKs, wanted to die every time Anthropic changed their message format.
 
 What I did: put a single gateway in front of everything that normalizes all providers to OpenAI format. Now my entire app uses one SDK, one format, one error pattern.
 
 It's an open-source project called Lunar Router:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Then your code becomes:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")
+make start-full</div>Then your code becomes:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)
 
+<span class="comment-text"># Use ANY provider with the same SDK:</span>
 response = client.chat.completions.create(
-    model="anthropic/claude-sonnet-4-20250514",
+    model=<span class="highlight">"anthropic/claude-sonnet-4-20250514"</span>,
     messages=[{"role": "user", "content": "..."}]
-)</span>
-Same exact code for Groq: <code>model="groq/llama-3.3-70b"</code>
+)</div>Same exact code for Groq: <code>model="groq/llama-3.3-70b"</code>
 Same for DeepSeek: <code>model="deepseek/deepseek-chat"</code>
 
 Delete all your provider-specific code. One SDK, one format, 13 providers. The gateway handles all the translation.
 
 My codebase went from 2,400 lines of provider spaghetti to 300 lines of clean OpenAI SDK calls.</div>
-                        <div class="comment-votes"><span class="upvotes">156</span> upvotes</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">156</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/failover_dev</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/infra_reliability</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">This is what I use too. The other benefit nobody mentions: when a provider goes down, you just change the model string to a different provider. No code changes. Instant failover.
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">This is what I use too. The other benefit nobody mentions: when a provider goes down, you just change the model string to a different provider. No code changes. Instant failover.
 
 Last month when OpenAI had that 2-hour outage, I switched to Anthropic in literally 5 seconds.</div>
-                        <div class="comment-votes"><span class="upvotes">72</span> upvotes</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">89</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 4 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">4</div>
-                    <div class="story-meta">
-                        <div class="scenario">CTO With Zero Observability</div>
-                        <div class="subreddit">r/ExperiencedDevs</div>
+        <div class="divider"></div>
+
+        <!-- STORY 4 -->
+        <div class="story">
+            <div class="story-number">4</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/ExperiencedDevs</span>
+                <span class="pain-tag">Zero observability</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/cto_midsize</span>
+                        <span class="post-time">Posted 5 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-visibility">Visibility</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/cto_debugging</span>
-                        <span class="dot">&middot;</span>
-                        <span>16h</span>
-                    </div>
-                    <div class="post-title">Our team makes ~50k LLM calls/day and we have zero observability. How are you monitoring this?</div>
-                    <div class="post-body">CTO at a mid-size company. We integrated LLMs into 3 products over the past year. Different teams, different implementations.
+                <div class="post-title">Our team makes ~50k LLM calls/day and we have zero observability. How are you monitoring this?</div>
+                <div class="post-body">CTO at a mid-size company. We integrated LLMs into 3 products over the past year. Different teams, different implementations.
 
 The problem: I have no unified view of what's happening.
-
 - Team A uses OpenAI directly with their own logging
 - Team B uses Anthropic through LangChain
 - Team C uses a mix of providers
 
-I can't answer basic questions:
-- What's our total AI spend across all products?
-- Which model/call is slowest?
-- Which features have degraded response quality?
-- Are we using the right models for each use case?
+I can't answer basic questions: What's our total AI spend? Which model/call is slowest? Which features have degraded response quality?
 
 I've looked at LangSmith, Helicone, etc. but they either require SDK changes across all teams, or they're expensive at our scale ($500+/mo for 50k calls/day).
 
 What's your observability stack for LLM calls?</div>
-                    <div class="post-actions">
-                        <span class="post-action">198 upvotes</span>
-                        <span class="post-action">94 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">278</span> upvotes</span>
+                    <span class="post-action">96 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/platform_eng_42</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/platform_eng_sr</span>
+                            <span class="post-time">3 hours later</span>
                         </div>
-                        <div class="comment-body">We had the same problem -- 3 teams, 4 providers, no central visibility.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">We had the same problem -- 3 teams, 4 providers, no central visibility.
 
 We ended up using Lunar Router as our gateway. It's open-source (free), self-hosted, and sits between all your apps and LLM providers. Every call gets logged automatically -- model, tokens, latency, cost, prompt hash -- without touching any team's code.
-
-Setup:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Each team just points their base_url to the gateway:
-<span class="code-block">client = OpenAI(base_url="http://your-gateway:8080/v1")</span>
-That's the only code change. Their existing SDKs and code stay exactly the same.
+make start-full</div>Each team just points their base_url to the gateway:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://your-gateway:8080/v1"</span>)</div>That's the only code change. Their existing SDKs and code stay exactly the same.
 
 Now I have a dashboard (React, runs on :3000) showing:
 - Cost per team / per product / per model
@@ -973,120 +804,122 @@ Now I have a dashboard (React, runs on :3000) showing:
 
 Everything stored in ClickHouse so it scales fine at 50k+ calls/day. The whole thing runs on a $20 VPS.
 
-We found $2,100/mo in waste in the first week just by seeing which calls were using GPT-4o unnecessarily. Way better than paying $500/mo for a hosted solution that has the same features.</div>
-                        <div class="comment-votes"><span class="upvotes">174</span> upvotes</div>
+We found $2,100/mo in waste in the first week just by seeing which calls were using GPT-4o unnecessarily.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">201</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/compliance_first</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/compliance_sre</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">Second this. The ClickHouse backend is clutch for high-volume logging. We do ~80k calls/day and the dashboard stays snappy. Self-hosting means our prompt data never leaves our infra either, which compliance loved.</div>
-                        <div class="comment-votes"><span class="upvotes">58</span> upvotes</div>
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">Second this. The ClickHouse backend is clutch for high-volume logging. We do ~80k calls/day and the dashboard stays snappy. Self-hosting means our prompt data never leaves our infra either, which compliance loved.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">84</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 5 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">5</div>
-                    <div class="story-meta">
-                        <div class="scenario">Freelancer With Cheap Clients</div>
-                        <div class="subreddit">r/ChatGPT</div>
+        <div class="divider"></div>
+
+        <!-- STORY 5 -->
+        <div class="story">
+            <div class="story-number">5</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/ChatGPT</span>
+                <span class="pain-tag">Freelancer cost pressure</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/freelance_ai_dev</span>
+                        <span class="post-time">Posted 7 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-cost">Cost</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/freelance_ai_dev</span>
-                        <span class="dot">&middot;</span>
-                        <span>7h</span>
-                    </div>
-                    <div class="post-title">Is there a way to use cheaper models for simple tasks and GPT-4o only when needed? My API bill is killing me</div>
-                    <div class="post-body">I'm a freelance developer building AI tools for small business clients. Every project uses the OpenAI API.
+                <div class="post-title">Is there a way to use cheaper models for simple tasks and GPT-4o only when needed? My API bill is killing me</div>
+                <div class="post-body">I'm a freelance developer building AI tools for small business clients. Every project uses the OpenAI API.
 
 Problem is my clients have tiny budgets. $50/mo max for AI. But some tasks genuinely need GPT-4o (complex analysis, code generation) while others are dead simple (extracting names from text, formatting data, classification).
 
 Right now everything goes through GPT-4o because I don't have time to integrate multiple providers per project. Different SDKs, different formats, different billing...
 
 Is there a simple way to route "easy" calls to cheap models and "hard" calls to GPT-4o? Without rewriting my entire stack for each client?</div>
-                    <div class="post-actions">
-                        <span class="post-action">156 upvotes</span>
-                        <span class="post-action">61 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">156</span> upvotes</span>
+                    <span class="post-action">61 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/budget_builder</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/budget_builder</span>
+                            <span class="post-time">4 hours later</span>
                         </div>
-                        <div class="comment-body">This is literally my workflow. Client projects with $30-80/mo AI budgets.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">This is literally my workflow. Client projects with $30-80/mo AI budgets.
 
 I use a free open-source gateway called Lunar Router. Install once, use for every client project:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Then in your code:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")
+make start-full</div>Then in your code:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)
 
-# Complex analysis -> GPT-4o ($2.50/M tokens)
-model="openai/gpt-4o"
+<span class="comment-text"># Complex analysis -- GPT-4o ($2.50/M tokens)</span>
+model=<span class="highlight">"openai/gpt-4o"</span>
 
-# Simple extraction -> DeepSeek ($0.14/M tokens)
-model="deepseek/deepseek-chat"
+<span class="comment-text"># Simple extraction -- DeepSeek ($0.14/M tokens)</span>
+model=<span class="highlight">"deepseek/deepseek-chat"</span>
 
-# Fast classification -> Groq Llama (basically free)
-model="groq/llama-3.3-70b"</span>
-Same SDK. Same response format. Just change the model string. The gateway translates everything to OpenAI format automatically.
+<span class="comment-text"># Fast classification -- Groq Llama (basically free)</span>
+model=<span class="highlight">"groq/llama-3.3-70b"</span></div>Same SDK. Same response format. Just change the model string.
 
 For a typical client project:
-- 60% of calls are simple -> DeepSeek/Groq
-- 30% are medium -> Claude Haiku or GPT-4o-mini
+- 60% of calls are simple -- DeepSeek/Groq
+- 30% are medium -- Claude Haiku or GPT-4o-mini
 - 10% actually need GPT-4o
 
-That turns a $200/mo bill into $30/mo easy. Clients are happy, margins are better.
-
-Plus you get a dashboard showing exactly where each dollar goes, which is great for client reporting.</div>
-                        <div class="comment-votes"><span class="upvotes">112</span> upvotes</div>
+That turns a $200/mo bill into $30/mo easy. Plus you get a dashboard showing exactly where each dollar goes, which is great for client reporting.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">124</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 6 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">6</div>
-                    <div class="story-meta">
-                        <div class="scenario">ML Engineer Drowning in Evaluation</div>
-                        <div class="subreddit">r/MachineLearning</div>
+        <div class="divider"></div>
+
+        <!-- STORY 6 -->
+        <div class="story">
+            <div class="story-number">6</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/MachineLearning</span>
+                <span class="pain-tag">Can't evaluate models</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/ml_eng_startup</span>
+                        <span class="post-time">Posted 5 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-evaluation">Evaluation</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/eval_purgatory</span>
-                        <span class="dot">&middot;</span>
-                        <span>12h</span>
-                    </div>
-                    <div class="post-title">How do you systematically evaluate which LLM to use for each task? We're just guessing</div>
-                    <div class="post-body">ML engineer at a startup. We use LLMs for 12 different tasks -- summarization, extraction, classification, code review, customer support drafts, etc.
+                <div class="post-title">How do you systematically evaluate which LLM to use for each task? We're just guessing</div>
+                <div class="post-body">ML engineer at a startup. We use LLMs for 12 different tasks -- summarization, extraction, classification, code review, customer support drafts, etc.
 
 We're using GPT-4o for everything because nobody has time to rigorously test alternatives. Every few weeks someone says "we should try Claude for X" or "DeepSeek is way cheaper for Y" but testing means:
 
@@ -1095,36 +928,31 @@ We're using GPT-4o for everything because nobody has time to rigorously test alt
 3. Comparing outputs by hand
 4. Hoping the results are statistically meaningful
 
-We've been "planning to do a proper evaluation" for 6 months. Meanwhile we're burning $4k/mo on GPT-4o for tasks that probably don't need it.
-
-Is there a tool or framework that makes model evaluation actually practical?</div>
-                    <div class="post-actions">
-                        <span class="post-action">167 upvotes</span>
-                        <span class="post-action">82 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+We've been "planning to do a proper evaluation" for 6 months. Meanwhile we're burning $4k/mo on GPT-4o for tasks that probably don't need it.</div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">203</span> upvotes</span>
+                    <span class="post-action">78 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/ml_pragmatist</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/eval_first</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">We had the same "we'll evaluate next sprint" problem for months.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">We had the same "we'll evaluate next sprint" problem for months.
 
-What actually made it practical: Lunar Router. It's an open-source gateway + evaluation engine. The key feature for you: it logs every call with full prompt/response, so you can replay any call against a different model and compare.
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+What actually made it practical: Lunar Router. It's an open-source gateway + evaluation engine. It logs every call with full prompt/response, so you can replay any call against a different model and compare.
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Point your app at it: <code>client = OpenAI(base_url="http://localhost:8080/v1")</code>
+make start-full</div>Point your app at it: <code>client = OpenAI(base_url="http://localhost:8080/v1")</code>
 
-Now every call gets logged to ClickHouse. After a few days of production traffic, you have real test data -- not synthetic benchmarks.
+Every call gets logged to ClickHouse. After a few days of production traffic, you have real test data -- not synthetic benchmarks.
 
 The evaluation engine (Python/FastAPI) lets you:
 - Replay logged prompts against any model
@@ -1132,52 +960,54 @@ The evaluation engine (Python/FastAPI) lets you:
 - See cost vs quality tradeoffs per task
 - Prompt clustering (KMeans + MiniLM) to group similar calls
 
-We found that 7 of our 12 tasks had zero quality difference between GPT-4o and DeepSeek. Saved $2,800/mo in actual production, not benchmark fantasy land.
-
-The semantic routing feature can even auto-route prompts to the best model per cluster once you've validated it.</div>
-                        <div class="comment-votes"><span class="upvotes">143</span> upvotes</div>
+We found that 7 of our 12 tasks had zero quality difference between GPT-4o and DeepSeek. Saved $2,800/mo in actual production, not benchmark fantasy land.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">167</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/clustering_fan</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/clustering_fan</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">The prompt clustering is underrated. It automatically groups your calls by semantic similarity, so you can see "oh, 40% of our traffic is basically the same type of extraction task" and optimize that whole cluster at once instead of going endpoint by endpoint.</div>
-                        <div class="comment-votes"><span class="upvotes">51</span> upvotes</div>
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">The prompt clustering is underrated. It automatically groups your calls by semantic similarity, so you can see "oh, 40% of our traffic is basically the same type of extraction task" and optimize that whole cluster at once instead of going endpoint by endpoint.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">91</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 7 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">7</div>
-                    <div class="story-meta">
-                        <div class="scenario">Agency Managing Multiple Clients</div>
-                        <div class="subreddit">r/Entrepreneur</div>
+        <div class="divider"></div>
+
+        <!-- STORY 7 -->
+        <div class="story">
+            <div class="story-number">7</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/Entrepreneur</span>
+                <span class="pain-tag">Agency multi-client billing</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/agency_founder_8</span>
+                        <span class="post-time">Posted 8 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-complexity">Complexity</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/agency_burnout</span>
-                        <span class="dot">&middot;</span>
-                        <span>18h</span>
-                    </div>
-                    <div class="post-title">Running AI features for 8 clients and managing API keys/billing per client is a nightmare</div>
-                    <div class="post-body">I run a dev agency. We build AI-powered tools for clients. 8 active projects right now, all using different combinations of OpenAI, Anthropic, and Mistral.
+                <div class="post-title">Running AI features for 8 clients and managing API keys/billing per client is a nightmare</div>
+                <div class="post-body">I run a dev agency. We build AI-powered tools for clients. 8 active projects right now, all using different combinations of OpenAI, Anthropic, and Mistral.
 
 The billing nightmare:
 - Some clients want to use their own API keys
 - Others want us to manage it and bill them
 - I need to track cost per client accurately
-- When a client asks "why was AI $340 this month?" I have to dig through multiple dashboards
 
 The key management nightmare:
 - 8 clients x 3 providers = 24 API keys
@@ -1185,359 +1015,372 @@ The key management nightmare:
 - When a key rotates, I'm grepping through Slack history
 
 There has to be a better way to centralize this.</div>
-                    <div class="post-actions">
-                        <span class="post-action">134 upvotes</span>
-                        <span class="post-action">56 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">187</span> upvotes</span>
+                    <span class="post-action">63 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/agency_ops_12</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/agency_dev_12</span>
+                            <span class="post-time">3 hours later</span>
                         </div>
-                        <div class="comment-body">Agency dev here, same situation -- 12 clients, multiple providers.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">Agency dev here, same situation -- 12 clients, multiple providers.
 
 What solved both problems: running a single Lunar Router instance as our central AI gateway.
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-How it works:
+make start-full</div>How it works:
 - All API keys live in ONE config file on our server
-- Each client app just points to our gateway: <code>client = OpenAI(base_url="http://our-gateway:8080/v1")</code>
+- Each client app just points to our gateway: <code>base_url="http://our-gateway:8080/v1"</code>
 - The gateway handles routing to the right provider
 
 For billing: Dashboard on :3000 shows cost per API key / per project. Export monthly reports per client in 30 seconds.
 
-For key management: Keys rotate in one place. Clients never see raw API keys. Add a new provider = update one config, all clients get access instantly.
+For key management: Keys rotate in one place. Clients never see raw API keys. Add a new provider = update one config, all clients get access.
 
-13 providers supported. One $20 VPS runs the whole thing for all 12 clients. Literally paid for itself the first month by catching $800 in wasteful GPT-4o calls across 3 projects.</div>
-                        <div class="comment-votes"><span class="upvotes">98</span> upvotes</div>
+13 providers supported. One $20 VPS runs the whole thing for all 12 clients. Paid for itself the first month by catching $800 in wasteful GPT-4o calls across 3 projects.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">143</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 8 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">8</div>
-                    <div class="story-meta">
-                        <div class="scenario">Vendor Lock-in Fear</div>
-                        <div class="subreddit">r/programming</div>
+        <div class="divider"></div>
+
+        <!-- STORY 8 -->
+        <div class="story">
+            <div class="story-number">8</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/programming</span>
+                <span class="pain-tag">Vendor lock-in</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/locked_in_dev</span>
+                        <span class="post-time">Posted 4 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-lockin">Lock-in</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/locked_in_dev</span>
-                        <span class="dot">&middot;</span>
-                        <span>13h</span>
-                    </div>
-                    <div class="post-title">OpenAI just raised prices again. How are you avoiding vendor lock-in with LLM providers?</div>
-                    <div class="post-body">Third price change in a year. Our entire app is built on the OpenAI SDK. Thousands of lines of code assuming OpenAI's API format.
+                <div class="post-title">OpenAI just raised prices again. How are you avoiding vendor lock-in with LLM providers?</div>
+                <div class="post-body">Third price change in a year. Our entire app is built on the OpenAI SDK. Thousands of lines of code assuming OpenAI's API format.
 
 If we wanted to switch to Anthropic or use cheaper models, it's a massive rewrite. Different SDK, different message format, different error handling, different streaming implementation.
 
 We're essentially locked in. They know it. They price accordingly.
 
-How are you architecting your apps to be provider-agnostic? Writing your own abstraction layer? Using some standard?</div>
-                    <div class="post-actions">
-                        <span class="post-action">278 upvotes</span>
-                        <span class="post-action">142 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+How are you architecting your apps to be provider-agnostic?</div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">341</span> upvotes</span>
+                    <span class="post-action">152 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/abstraction_hater</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/no_vendor_lock</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">Don't write your own abstraction layer. Seriously. Every team that tries ends up maintaining a half-broken SDK wrapper that's always 3 months behind the latest provider features.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">Don't write your own abstraction layer. Seriously. Every team that tries ends up maintaining a half-broken SDK wrapper that's always 3 months behind.
 
-What works: put a gateway in front of your app that normalizes everything to one format. Your app only talks to the gateway. The gateway talks to providers.
+What works: put a gateway in front that normalizes everything to one format.
 
 I use Lunar Router (open source):
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Your code stays 100% OpenAI SDK:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")
+make start-full</div>Your code stays 100% OpenAI SDK:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)
 
-# Use ANY provider with the same SDK:
-model="anthropic/claude-sonnet-4-20250514"
-model="deepseek/deepseek-chat"
-model="groq/llama-3.3-70b"
-model="mistral/mistral-large"</span>
-Same SDK. Same format. Same error handling. The gateway translates everything.
+<span class="comment-text"># Use ANY provider:</span>
+model=<span class="highlight">"anthropic/claude-sonnet-4-20250514"</span>
+model=<span class="highlight">"deepseek/deepseek-chat"</span>
+model=<span class="highlight">"groq/llama-3.3-70b"</span>
+model=<span class="highlight">"mistral/mistral-large"</span></div>Same SDK. Same format. Same error handling. The gateway translates everything.
 
-Next time OpenAI raises prices, you change one word in your model string. Zero code changes. That's real vendor independence.
-
-13 providers supported. Written in Go so it's fast -- adds less than 5ms latency to requests.</div>
-                        <div class="comment-votes"><span class="upvotes">203</span> upvotes</div>
+Next time OpenAI raises prices, you change one word in your model string. Zero code changes. Written in Go so it's fast -- adds &lt;5ms latency.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">234</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/switched_last_month</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/switched_last_month</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">This is the right approach. We switched from OpenAI to Anthropic for 60% of our calls last month. Total code changes: zero. Just updated model strings. Saved $1,200/mo.
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">This is the right approach. We switched from OpenAI to Anthropic for 60% of our calls last month. Total code changes: zero. Just updated model strings. Saved $1,200/mo.
 
-Building your own abstraction layer is a trap. It's always incomplete and breaks every time a provider ships a new feature.</div>
-                        <div class="comment-votes"><span class="upvotes">87</span> upvotes</div>
+Building your own abstraction layer is a trap.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">112</span> upvotes</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 9 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">9</div>
-                    <div class="story-meta">
-                        <div class="scenario">Student With No Budget</div>
-                        <div class="subreddit">r/learnprogramming</div>
+        <div class="divider"></div>
+
+        <!-- STORY 9 -->
+        <div class="story">
+            <div class="story-number">9</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/learnprogramming</span>
+                <span class="pain-tag">Student with no budget</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/cs_student_2026</span>
+                        <span class="post-time">Posted 3 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-cost">Cost</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/cs_junior_2026</span>
-                        <span class="dot">&middot;</span>
-                        <span>5h</span>
-                    </div>
-                    <div class="post-title">Building my first app with AI APIs and the cost is already scaring me. Any tips for keeping it cheap?</div>
-                    <div class="post-body">CS student building a side project -- an AI study assistant that summarizes notes, generates practice questions, and explains concepts.
+                <div class="post-title">Building my first app with AI APIs and the cost is already scaring me. Any tips for keeping it cheap?</div>
+                <div class="post-body">CS student building a side project -- an AI study assistant that summarizes notes, generates practice questions, and explains concepts.
 
 I got the OpenAI API working but even in testing I've already spent $15. The free tier ran out fast. I'm worried about what happens when actual users start using it.
 
-I've heard there are cheaper models but they all have different APIs and I don't want to rewrite everything. Is there a way to use cheap models for simple stuff (like formatting questions) and OpenAI only when quality matters (like explaining complex concepts)?
+I've heard there are cheaper models but they all have different APIs and I don't want to rewrite everything.
 
 Budget is basically $0. Student life.</div>
-                    <div class="post-actions">
-                        <span class="post-action">223 upvotes</span>
-                        <span class="post-action">98 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">134</span> upvotes</span>
+                    <span class="post-action">48 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/been_there_broke</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/cheap_ai_tips</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">Perfect use case for mixing models. You don't need GPT-4o for generating flashcards lol.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">Perfect use case for mixing models. You don't need GPT-4o for generating flashcards lol.
 
-Here's what I'd do -- use Lunar Router (free, open source) as a gateway:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+Use Lunar Router (free, open source) as a gateway:
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Then in your code:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")
+make start-full</div>Then in your code:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)
 
-# Explain complex concepts -> GPT-4o
-model="openai/gpt-4o"
+<span class="comment-text"># Explain complex concepts -- GPT-4o</span>
+model=<span class="highlight">"openai/gpt-4o"</span>
 
-# Generate practice questions -> DeepSeek (18x cheaper)
-model="deepseek/deepseek-chat"
+<span class="comment-text"># Generate practice questions -- DeepSeek (18x cheaper)</span>
+model=<span class="highlight">"deepseek/deepseek-chat"</span>
 
-# Format/classify stuff -> Groq Llama (basically free)
-model="groq/llama-3.3-70b"</span>
-Same code, same SDK, just different model string.
+<span class="comment-text"># Format/classify stuff -- Groq Llama (basically free)</span>
+model=<span class="highlight">"groq/llama-3.3-70b"</span></div>Same code, same SDK, just different model string.
 
-For a study assistant, I'd guess 70%+ of your calls are simple enough for DeepSeek or Groq. That would take your costs from $15 to like $2 for the same usage.
+For a study assistant, 70%+ of your calls are simple enough for DeepSeek or Groq. That would take your costs from $15 to like $2 for the same usage.
 
-Plus you get a dashboard showing exactly what each call costs, which is great for learning where money goes in AI apps.</div>
-                        <div class="comment-votes"><span class="upvotes">167</span> upvotes</div>
+Plus you get a dashboard showing exactly what each call costs.</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">98</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- STORY 10 -->
-            <div class="story-card">
-                <div class="story-header">
-                    <div class="story-number">10</div>
-                    <div class="story-meta">
-                        <div class="scenario">Post-Outage Reliability Plan</div>
-                        <div class="subreddit">r/devops</div>
+        <div class="divider"></div>
+
+        <!-- STORY 10 -->
+        <div class="story">
+            <div class="story-number">10</div>
+            <div class="story-meta">
+                <span class="subreddit-tag">r/devops</span>
+                <span class="pain-tag">Provider outage recovery</span>
+            </div>
+            <div class="reddit-post">
+                <div class="post-header">
+                    <div class="post-avatar avatar-poster">A</div>
+                    <div class="post-user-info">
+                        <span class="post-username">u/oncall_sre</span>
+                        <span class="post-time">Posted 6 hours ago</span>
                     </div>
-                    <span class="story-pain-tag pain-reliability">Reliability</span>
+                    <span class="account-label label-poster">Account A</span>
                 </div>
-
-                <div class="reddit-post">
-                    <div class="post-chrome">
-                        <div class="avatar"></div>
-                        <span class="username">u/oncall_nightmare</span>
-                        <span class="dot">&middot;</span>
-                        <span>10h</span>
-                    </div>
-                    <div class="post-title">OpenAI went down for 2 hours last week. Our AI features were completely dead. How do you handle LLM provider outages?</div>
-                    <div class="post-body">We rely on OpenAI for 3 customer-facing features. Last week they had a 2-hour outage during peak hours. Our AI features were completely dead. No fallback.
+                <div class="post-title">OpenAI went down for 2 hours last week. Our AI features were completely dead. How do you handle LLM provider outages?</div>
+                <div class="post-body">We rely on OpenAI for 3 customer-facing features. Last week they had a 2-hour outage during peak hours. Our AI features were completely dead. No fallback.
 
 Management is now asking for an "LLM reliability plan."
 
 The obvious answer is "have a backup provider" but in practice that means:
-- Integrating Anthropic as a fallback
-- Different SDK, different format, different auth
-- Testing that the backup actually produces acceptable quality
+- Integrating Anthropic as a fallback (different SDK, format, auth)
+- Testing that the backup produces acceptable quality
 - Building routing logic to detect failures and switch
 - Maintaining two integrations forever
 
-That's weeks of work for our team. Is there a simpler way to have multi-provider redundancy without doubling our integration maintenance?</div>
-                    <div class="post-actions">
-                        <span class="post-action">267 upvotes</span>
-                        <span class="post-action">113 comments</span>
-                        <span class="post-action">share</span>
-                    </div>
+That's weeks of work. Is there a simpler way?</div>
+                <div class="post-actions">
+                    <span class="post-action"><span class="upvotes">267</span> upvotes</span>
+                    <span class="post-action">91 comments</span>
+                    <span class="post-action">Share</span>
                 </div>
-
-                <div class="comments-section">
-                    <div class="comments-label">Scripted Responses</div>
-
-                    <div class="comment helper">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/zero_downtime_ai</span>
-                            <span class="role">Account B</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 2-4h later</span>
+            </div>
+            <div class="comment-thread">
+                <div class="comment">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-helper">B</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/zero_downtime_ai</span>
+                            <span class="post-time">2 hours later</span>
                         </div>
-                        <div class="comment-body">We solved this exact problem without building any custom routing logic.
+                        <span class="account-label label-helper">Account B</span>
+                    </div>
+                    <div class="post-body">We solved this exact problem without building any custom routing logic.
 
-We use Lunar Router -- open-source LLM gateway. It sits between your app and providers:
-<span class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
+We use Lunar Router -- open-source LLM gateway:
+<div class="code-block">git clone https://github.com/lunar-org-ai/lunar-router
 cd lunar-router
-make start-full</span>
-Your app talks to the gateway:
-<span class="code-block">client = OpenAI(base_url="http://localhost:8080/v1")
+make start-full</div>Your app talks to the gateway:
+<div class="code-block">client = OpenAI(base_url=<span class="highlight">"http://localhost:8080/v1"</span>)
 
-# Normal operation:
-model="openai/gpt-4o"
+<span class="comment-text"># Normal operation:</span>
+model=<span class="highlight">"openai/gpt-4o"</span>
 
-# OpenAI goes down? Change one string:
-model="anthropic/claude-sonnet-4-20250514"</span>
-Your code doesn't change. Same SDK. Same format. The gateway translates everything. You can even automate the failover with a simple health check.
+<span class="comment-text"># OpenAI goes down? Change one string:</span>
+model=<span class="highlight">"anthropic/claude-sonnet-4-20250514"</span></div>Your code doesn't change. Same SDK. Same format. The gateway translates everything.
 
 13 providers supported. During last week's OpenAI outage we switched to Anthropic in under a minute. Zero downtime for our users.
 
 The real power: since it logs everything, you can validate backup model quality BEFORE you need it. Run your production prompts against Anthropic in the background, compare outputs, know it's ready.
 
 Show that to management. "We have 12 backup providers pre-validated and can switch in 60 seconds." That's your reliability plan.</div>
-                        <div class="comment-votes"><span class="upvotes">198</span> upvotes</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">189</span> upvotes</span>
+                        <span class="post-action">Best comment</span>
                     </div>
-
-                    <div class="comment reinforcer">
-                        <div class="comment-chrome">
-                            <div class="avatar"></div>
-                            <span class="username">u/sre_been_there</span>
-                            <span class="role">Account C</span>
-                            <span class="dot">&middot;</span>
-                            <span class="time">Posts 1-3h after B</span>
+                </div>
+                <div class="comment reinforcer">
+                    <div class="post-header">
+                        <div class="post-avatar avatar-reinforcer">C</div>
+                        <div class="post-user-info">
+                            <span class="post-username">u/multi_provider_prod</span>
+                            <span class="post-time">1 hour later</span>
                         </div>
-                        <div class="comment-body">We run Lunar Router in production for exactly this reason. Primary: OpenAI. Fallback: Anthropic. Second fallback: Mistral.
+                        <span class="account-label label-reinforcer">Account C</span>
+                    </div>
+                    <div class="post-body">We run Lunar Router in production for exactly this reason. Primary: OpenAI. Fallback: Anthropic. Second fallback: Mistral.
 
 Haven't had a single minute of AI downtime in 4 months. Total setup time was maybe 2 hours including testing all three providers.</div>
-                        <div class="comment-votes"><span class="upvotes">76</span> upvotes</div>
+                    <div class="post-actions">
+                        <span class="post-action"><span class="upvotes">76</span> upvotes</span>
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
+
+    </div>
 
     <div class="divider"></div>
 
     <!-- PLAYBOOK -->
-    <section id="playbook">
-        <div class="section-label">Execution</div>
-        <div class="section-title" style="margin-bottom: 3rem;">Deployment Playbook</div>
+    <div class="container" id="playbook">
+        <div class="playbook">
+            <div class="section-label">Execution</div>
+            <h2 class="section-title">Deployment Playbook</h2>
+            <p class="section-subtitle">Timing, accounts, and authenticity rules for executing these stories.</p>
 
-        <div class="notes-section">
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <h4>Account Strategy</h4>
+                    <ul>
+                        <li>Minimum 3 accounts per story (poster, helper, reinforcer)</li>
+                        <li>Different account ages and karma levels</li>
+                        <li>Poster accounts must have prior activity in the subreddit</li>
+                        <li>Never post story + comment from same IP</li>
+                        <li>Helper account should NOT have Lunar Router in history</li>
+                    </ul>
+                </div>
+
+                <div class="rule-card">
+                    <h4>Authenticity Rules</h4>
+                    <ul>
+                        <li>Poster NEVER mentions Lunar Router</li>
+                        <li>Helper sounds like they discovered it on their own</li>
+                        <li>Include specific numbers that differ between stories</li>
+                        <li>Minor imperfections -- casual tone, not marketing copy</li>
+                        <li>Reinforcement adds NEW information, not just "+1"</li>
+                    </ul>
+                </div>
+
+                <div class="rule-card">
+                    <h4>Subreddit Rotation</h4>
+                    <ul>
+                        <li>Stories 1, 3: r/ChatGPTPro, r/LocalLLaMA</li>
+                        <li>Stories 2, 7: r/SaaS, r/Entrepreneur</li>
+                        <li>Story 4: r/ExperiencedDevs</li>
+                        <li>Stories 5, 9: r/ChatGPT, r/learnprogramming</li>
+                        <li>Stories 6: r/MachineLearning</li>
+                        <li>Stories 8, 10: r/programming, r/devops</li>
+                    </ul>
+                </div>
+
+                <div class="rule-card">
+                    <h4>Risk Mitigation</h4>
+                    <ul>
+                        <li>If called out, do NOT defend -- delete and move on</li>
+                        <li>Max 3 Lunar Router mentions per subreddit per month</li>
+                        <li>Mix in genuine helpful comments from same accounts</li>
+                        <li>Space stories 3-5 days apart per subreddit</li>
+                    </ul>
+                </div>
+
+                <div class="rule-card timing-card">
+                    <div class="timing-step">
+                        <div class="time">T+0h</div>
+                        <div class="action">Post the problem</div>
+                        <div class="detail">Peak hours: 8-10 AM EST</div>
+                    </div>
+                    <div class="timing-step">
+                        <div class="time">T+2-4h</div>
+                        <div class="action">Helper comment</div>
+                        <div class="detail">Natural discovery timing</div>
+                    </div>
+                    <div class="timing-step">
+                        <div class="time">T+3-7h</div>
+                        <div class="action">Reinforcement</div>
+                        <div class="detail">Adds new detail, not just agreement</div>
+                    </div>
+                </div>
+            </div>
 
             <div class="warning-box">
-                <h4>Risk Mitigation</h4>
-                <p>If any post gets called out as astroturfing, do NOT defend it. Delete and move on. Keep total Lunar Router mentions under 3 per subreddit per month. Mix in genuine helpful comments on other posts from the same accounts.</p>
+                <h4>Critical: Let Organic Engagement Happen</h4>
+                <p>Between the problem post and the helper comment, real users will reply. Let them. The best stories are ones where 3-4 real comments come in suggesting other solutions, and THEN the helper comment arrives with Lunar Router as a better alternative. This makes it look like a genuine recommendation, not the first reply.</p>
             </div>
-
-            <div class="note-card">
-                <h4>Account Strategy</h4>
-                <ul>
-                    <li>Minimum 3 accounts per story (poster, helper, reinforcer)</li>
-                    <li>Accounts should have different ages and karma levels</li>
-                    <li>Poster accounts should have prior activity in the subreddit</li>
-                    <li>Never post story + comment from same IP</li>
-                    <li>Space stories 3-5 days apart per subreddit</li>
-                    <li>Helper account should NOT have Lunar Router in post history before the comment</li>
-                </ul>
-            </div>
-
-            <div class="note-card">
-                <h4>Timing Strategy</h4>
-                <ul>
-                    <li>Post the "problem" post during peak hours (8-10 AM EST)</li>
-                    <li>Wait 2-4 hours before the "helper" comment</li>
-                    <li>Reinforcement comment comes 1-3 hours after the helper</li>
-                    <li>Let organic engagement happen between comments</li>
-                </ul>
-            </div>
-
-            <div class="note-card">
-                <h4>Authenticity Rules</h4>
-                <ul>
-                    <li>Poster should NEVER mention Lunar Router -- they don't know about it yet</li>
-                    <li>Helper should sound like they discovered it on their own solving the same problem</li>
-                    <li>Include specific numbers that are slightly different from other stories</li>
-                    <li>Helper should have minor imperfections -- casual tone, incomplete thoughts</li>
-                    <li>NEVER link directly to GitHub from the post body (only in comments)</li>
-                    <li>Reinforcement comment should add new information not just "+1 this"</li>
-                </ul>
-            </div>
-
-            <div class="note-card">
-                <h4>Subreddit Rotation</h4>
-                <ul>
-                    <li>Stories 1, 3 -- r/ChatGPTPro, r/LocalLLaMA</li>
-                    <li>Stories 2, 7 -- r/SaaS, r/Entrepreneur</li>
-                    <li>Story 4 -- r/ExperiencedDevs</li>
-                    <li>Stories 5, 9 -- r/ChatGPT, r/learnprogramming</li>
-                    <li>Story 6 -- r/MachineLearning</li>
-                    <li>Story 8 -- r/programming</li>
-                    <li>Story 10 -- r/devops</li>
-                </ul>
-            </div>
-
         </div>
-    </section>
+    </div>
 
     <footer>
-        <p>Lunar Router Community Seeding Strategy</p>
-        <p class="prepared">Prepared April 2026 -- Story-Style Reddit Posts</p>
+        <p>Lunar Router -- Story-Style Reddit Engagement Strategy</p>
+        <p class="prepared">Prepared April 2026 -- 10 scenarios across 10 subreddits</p>
     </footer>
 
 </body>
