@@ -1,11 +1,11 @@
 # Lunar Router — All Reddit + HN + Dev.to Posts (20 Days)
-## Strong hooks. Results first. Easy UX. Teach don't sell.
+## Strong hooks. Results first. Easy UX. Teach the install.
 
 ---
 
 # DAY 1 — BLITZ LAUNCH
 
-## Reddit r/LocalLLaMA (Hour 0)
+## Hour 0 — Reddit r/LocalLLaMA
 
 **Title:** I cut my LLM API bill from $420/mo to $73 by routing each prompt to the cheapest model that could handle it
 
@@ -14,243 +14,259 @@
 I was mass paying OpenAI $420/month. Every call hitting GPT-4o 
 whether it needed to or not. Zero visibility.
 
-Put a gateway between my app and the API. Took 2 minutes:
+Put a gateway between my app and the API. Here's the entire setup:
 
-Step 1: clone it
-  git clone https://github.com/lunar-org-ai/lunar-router
-  cd lunar-router
+git clone https://github.com/lunar-org-ai/lunar-router
+cd lunar-router
+make start-full
 
-Step 2: start everything
-  make start-full
+That's it. Gateway runs on :8080. Dashboard on :3000. Done.
 
-That's it. Gateway running on localhost:8080. 
-Dashboard on localhost:3000. ClickHouse included.
+Then I changed ONE line in my app:
 
-Step 3: one line change in your app
-  # before
-  client = OpenAI(base_url="https://api.openai.com/v1")
-  
-  # after  
-  client = OpenAI(base_url="http://localhost:8080/v1")
+# before
+client = OpenAI(base_url="https://api.openai.com/v1")
 
-Nothing else changes. Same SDK. Same code. Same everything.
-Your app doesn't even know it's going through a gateway.
+# after  
+client = OpenAI(base_url="http://localhost:8080/v1")
+
+Same SDK. Same code. Everything else stays the same.
 
 After one week of tracking every call:
 
 - 38% were simple extraction/formatting. DeepSeek handles 
   these identically at $0.14/M instead of $2.50/M.
-- 24% were classification. Groq's Llama 3.3 does these at 
-  near-zero cost, 10x faster.
+- 24% were classification. Groq's Llama 3.3 does them 
+  at near-zero cost, 10x faster.
 - Only 38% actually needed GPT-4o.
 
-To use a different model, you just change the prefix:
+To switch a call to a cheaper model, you just change 
+one word in the model string:
 
-  model="openai/gpt-4o"          # OpenAI
-  model="deepseek/deepseek-chat" # DeepSeek — 18x cheaper
-  model="groq/llama-3.3-70b"    # Groq — nearly free
+model="openai/gpt-4o"          → expensive
+model="deepseek/deepseek-chat" → 18x cheaper
+model="groq/llama-3.3-70b"     → basically free
 
-Same line of code. Same SDK. Just a different prefix.
+Same SDK. Same response format. The gateway translates 
+everything — streaming, tool calls, vision, all of it.
 
 Bill went from $420 to $73. Same app. Same quality.
 
-13 providers supported: OpenAI, Anthropic, Gemini, Mistral, 
-Groq, DeepSeek, Perplexity, Cerebras, SambaNova, Together, 
-Fireworks, Cohere, AWS Bedrock.
+But here's the part I didn't expect: it auto-clusters 
+your prompts by semantic similarity. After 10k calls 
+I had 5 clean datasets grouped by use case — ready 
+for fine-tuning. Didn't configure anything.
 
-The part I didn't expect: it auto-clusters your prompts by 
-semantic similarity. After 10k calls I had 5 clean datasets 
-grouped by use case — ready for fine-tuning. Didn't configure 
-anything.
+13 providers: OpenAI, Anthropic, Gemini, Mistral, Groq, 
+DeepSeek, Perplexity, Cerebras, SambaNova, Together, 
+Fireworks, Cohere, AWS Bedrock.
 
 MIT licensed. Self-hosted. Data stays on your machine.
 
 GitHub: [link]
 
-AMA — happy to walk anyone through setup.
+AMA.
 ```
+
+**RULE: Reply to EVERY comment for the first 3 hours.**
 
 ---
 
-## Hacker News Show HN (Hour 1)
+## Hour 1 — Hacker News (Show HN)
 
-**Title:** Show HN: I cut my LLM costs 67% by auto-routing prompts to the cheapest model that delivers (open-source)
+**Title:** Show HN: I cut my LLM costs from $420/mo to $73 by auto-routing to the cheapest model that works
 
 **Body:**
 ```
-Was spending $420/mo on LLM APIs with zero visibility into 
-what each feature actually cost.
+I was spending $420/month on OpenAI with no idea what 
+each feature actually cost.
 
 Built Lunar Router — open-source gateway (Go + Python + React) 
 that sits between your app and 13 LLM providers.
 
-Setup is 3 steps:
+Setup is 3 commands:
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Then change one line in your app:
-  base_url = "http://localhost:8080/v1"
+Change your OpenAI base_url to localhost:8080. Done. 
+Same SDK, same code, everything works.
 
-That's it. Every call now gets tracked: model, tokens, cost, 
-latency, full input/output. Dashboard at localhost:3000.
+What it gives you:
+- Every call tracked: model, tokens, cost, latency, full I/O
+- Dashboard with search, filters, per-model analytics
+- Auto-clusters prompts by semantic similarity
+- Evaluation engine with LLM-as-judge
+- Prepares datasets for fine-tuning automatically
 
-What makes it different from LiteLLM: this isn't just a proxy. 
-It's a proxy + cost dashboard + trace storage + semantic 
-clustering + evaluation engine + fine-tuning data preparation.
+Switching providers is one word:
+  model="openai/gpt-4o" → model="deepseek/deepseek-chat"
 
-After a week of tracking: found 62% of my GPT-4o calls didn't 
-need GPT-4o. Simple routing rules → $420 down to $73.
+Same SDK. Gateway translates streaming, tools, vision.
 
-After 10k calls: clustering pipeline automatically found 5 
-distinct use cases in my traffic and prepared clean datasets 
-for each one. Ready for fine-tuning without manual work.
-
-Stack: Go engine (fast, sub-ms overhead) + ClickHouse (traces) 
-+ Python/FastAPI (analytics, clustering, evals) + React dashboard.
+After tracking my calls for a week, I found 62% didn't 
+need a premium model. Routing rules cut the bill to $73.
 
 MIT licensed. No telemetry. Self-hosted.
 
 GitHub: [link]
 ```
 
+**RULE: Be in comments from minute one. Answer everything.**
+
 ---
 
-## Dev.to Blog Post (Hour 4)
+## Hour 4 — Dev.to Blog Post
 
-**Title:** How I cut my LLM API costs from $420/mo to $73 with 3 commands and one line of code
+**Title:** How I cut my LLM API bill from $420/mo to $73 with 3 commands and one line of code
 
 **Body:**
 ```
-# The Problem
+## The problem
 
-I was paying OpenAI $420/month. I had no idea what each 
-feature in my app actually cost. No way to know if a 
-$0.14/M model could handle what I was sending to a 
-$2.50/M model.
+I was paying $420/month to OpenAI. Every API call went to 
+GPT-4o regardless of complexity. I had zero visibility into 
+what each feature actually cost.
 
 Sound familiar?
 
-# The Fix (2 minutes)
+## The fix (5 minutes)
 
-## Step 1: Clone and start
+### Step 1: Install
 
-```bash
-git clone https://github.com/lunar-org-ai/lunar-router
-cd lunar-router
-make start-full
-```
+  git clone https://github.com/lunar-org-ai/lunar-router
+  cd lunar-router
+  make start-full
 
-This starts:
-- Gateway on port 8080 (Go — fast, sub-ms overhead)
-- Dashboard on port 3000 (React)
-- ClickHouse for trace storage
-- Python API on port 8000
+This starts everything:
+- Go gateway on port 8080 (the proxy)
+- React dashboard on port 3000 (see your calls)
+- ClickHouse (stores the traces)
+- Python API on port 8000 (analytics, clustering, evals)
 
-All in one docker compose. No config files to edit.
+All in one Docker compose. No config files to edit.
 
-## Step 2: One line change in your app
+### Step 2: Point your app at it
 
-```python
-# before
-client = OpenAI(base_url="https://api.openai.com/v1")
+Change one line:
 
-# after
-client = OpenAI(base_url="http://localhost:8080/v1")
-```
+  # before
+  client = OpenAI(
+      api_key="sk-...",
+      base_url="https://api.openai.com/v1"
+  )
 
-That's it. Your app doesn't know the difference. 
-Same SDK. Same code. Same response format.
+  # after
+  client = OpenAI(
+      api_key="sk-...",
+      base_url="http://localhost:8080/v1"
+  )
 
-## Step 3: Open the dashboard
+That's it. Your app works exactly the same. But now 
+every call gets tracked automatically.
 
-Go to localhost:3000. Every call shows up in real time.
+### Step 3: Open the dashboard
 
-For each call you see:
+Go to localhost:3000. You'll see every API call with:
 - Model used
-- Tokens in / out
+- Tokens in and out
 - Exact cost in dollars
-- Latency in ms
-- Full prompt (searchable)
-- Full response (searchable)
+- Full latency breakdown
+- Complete prompt and response (searchable)
 
-## What I found in week 1
+### Step 4: Find the waste
 
-After 7 days of tracking 14,200 calls:
+After one week, my dashboard showed:
 
-- 38% → simple formatting/extraction tasks
-  - Was using GPT-4o ($2.50/M tokens)
-  - DeepSeek handles identically ($0.14/M tokens)
-  
-- 24% → classification tasks
-  - Was using GPT-4o ($2.50/M tokens)
-  - Groq Llama 3.3 does these at ~$0.05/M, 10x faster
+- 38% of calls were simple formatting/extraction tasks 
+  running on GPT-4o ($2.50/M tokens)
+- 24% were classification tasks on GPT-4o
+- Only 38% actually needed a premium model
 
-- 38% → actually needed GPT-4o
+62% of my budget was wasted.
 
-62% of my money was going to the wrong model.
+### Step 5: Route smarter
 
-## Switching models
+Switching a call to a cheaper model is one word:
 
-To route different prompts to different models, you just 
-change the model prefix:
+  # expensive
+  model="openai/gpt-4o"
 
-```python
-# expensive
-response = client.chat.completions.create(
-    model="openai/gpt-4o",
-    messages=[...]
-)
+  # 18x cheaper, same quality for simple tasks
+  model="deepseek/deepseek-chat"
 
-# 18x cheaper, same quality for simple tasks
-response = client.chat.completions.create(
-    model="deepseek/deepseek-chat",
-    messages=[...]
-)
+  # basically free, 10x faster for classification
+  model="groq/llama-3.3-70b"
 
-# nearly free, 10x faster for classification
-response = client.chat.completions.create(
-    model="groq/llama-3.3-70b-versatile",
-    messages=[...]
-)
-```
+Same SDK. Same code. The gateway translates everything.
 
-Same SDK. Same code. One word change.
+Or set up automatic routing:
 
-## Result
+  router = lr.Router(
+      model_list=[
+          {"model_name": "smart", "model": "openai/gpt-4o"},
+          {"model_name": "fast", "model": "groq/llama-3.3-70b"},
+          {"model_name": "cheap", "model": "deepseek/deepseek-chat"},
+      ],
+      strategy="least-cost"
+  )
 
-$420/mo → $73/mo. Same app. Same quality for users.
+Now your app uses model="smart" or model="cheap". 
+Swap the underlying provider anytime without touching 
+your code.
+
+## The result
+
+$420/mo → $73/mo. Same app. Same output quality.
 
 ## The bonus I didn't expect
 
-After ~10k calls, the clustering pipeline kicked in. 
-It groups your prompts by semantic similarity automatically 
-using KMeans + MiniLM embeddings.
+After 10k calls, a clustering algorithm automatically 
+grouped my prompts into 5 use cases by semantic similarity. 
+Each cluster is a clean dataset ready for fine-tuning.
 
-It found 5 distinct use cases in my traffic:
-- Code generation (34%)
-- Data extraction (28%)
-- Content writing (19%)
-- Classification (12%)
-- Other (7%)
+I didn't configure this. It just happened.
 
-Each cluster is a clean dataset of input/output pairs. 
-Ready for fine-tuning. I didn't configure any of this.
+Fine-tuned a 7B model on the largest cluster. It now 
+handles that use case at 1/50th the cost of GPT-4o.
 
 ## Try it
 
-3 commands. One line change. 2 minutes.
+  git clone https://github.com/lunar-org-ai/lunar-router
+  cd lunar-router
+  make start-full
 
-```bash
-git clone https://github.com/lunar-org-ai/lunar-router
-cd lunar-router
-make start-full
-```
+13 providers. MIT licensed. Self-hosted. 
+Your data never leaves your machine.
 
 GitHub: [link]
-MIT licensed. Self-hosted. Your data stays on your machine.
+
+---
+
+Tags: #llm #openai #opensource #ai #devtools
 ```
+
+---
+
+# DAY 2
+
+## Reddit (comment seeding)
+
+**Target subs:** r/LocalLLaMA, r/ChatGPTCoding
+**Find:** Posts about LLM costs, API pricing, model selection
+**Template:**
+```
+I ran into the same problem. After tracking all my calls 
+for a week, I found [specific insight relevant to the post]. 
+The data was pretty eye-opening.
+
+I used an open-source gateway that logs everything — 
+might be useful if you want to see where your money 
+actually goes: [link]
+```
+
+**Also:** Reply to ALL new comments on Day 1 posts (Reddit + HN)
 
 ---
 
@@ -258,58 +274,82 @@ MIT licensed. Self-hosted. Your data stays on your machine.
 
 ## Reddit r/selfhosted
 
-**Title:** I self-hosted a one-command LLM dashboard and found I was burning $347/mo on prompts that didn't need a premium model
+**Title:** I self-hosted an LLM dashboard and found $347/mo in wasted API calls. Setup took 3 commands.
 
 **Body:**
 ```
-Wanted to know what my LLM app was actually doing behind 
-the scenes. Set this up in under 2 minutes.
+I wanted to know what my LLM app was actually doing. 
+How much each feature costs. Which models get used. 
+Where the money goes.
 
-Setup:
+## Setup (under 5 minutes)
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-That gives you:
-- Gateway on :8080 (your app points here instead of OpenAI)
-- Dashboard on :3000 (where you see everything)
-- ClickHouse (trace storage, starts automatically)
-- Python API on :8000 (analytics, clustering)
+That starts:
+- Gateway on :8080 (Go — sub-millisecond overhead)
+- Dashboard on :3000 (React)
+- ClickHouse (trace storage)
 
-One docker compose. No config files. No API keys to register.
-
-Then one line change in your app:
+Then in your app, change one line:
 
   base_url = "http://localhost:8080/v1"
 
-Your app thinks it's talking to OpenAI. It's not. 
-It's going through the gateway. Every call gets logged.
+Everything else stays the same. Same SDK, same code.
 
-What the dashboard showed me (first week):
+## What the dashboard shows
+
+Open localhost:3000 and you see every API call in real time:
+
+- Full trace: model, tokens, cost, latency
+- Complete prompt and response (searchable!)
+- Filter by: model, date range, cost range, latency
+- Click any trace → full detail drawer
+
+The search is the killer feature. I type "show me every 
+call about refunds" and see every single one. With the 
+model's response. With the cost attached.
+
+## What I found in week 1
 
 - 14,200 calls tracked automatically
 - Total spend: $347
 - Calls that could've used a cheaper model: 8,700 (61%)
 - Money wasted: ~$210
 
-The search is the killer feature. I can type "show me every 
-call about refunds" and see every single one — with the 
-model's response, the cost, the latency. All of it.
+My most expensive feature was a summarizer making 
+800 calls/day at $0.31 each on GPT-4o ($248/mo). 
+Same quality on DeepSeek at $0.02/call ($16/mo).
 
-Filter by model, date range, cost range. Click any trace 
-for full detail.
+## Requirements
 
-Runs on a $5/month VPS no problem. I do ~15k calls/day 
-on a $10 instance.
+- Docker (for ClickHouse)
+- Go 1.21+ (gateway)
+- Node 18+ (dashboard)
+- Python 3.11+ (API)
 
-No accounts. No telemetry. No SaaS dependency. 
-Your data stays on your disk. MIT licensed.
+Or just Docker for everything via the compose file.
 
-[link]
+Runs fine on a $5/month VPS for moderate traffic. 
+I do ~50k calls/day on a $20 instance.
 
-Screenshots of the dashboard in comments.
+No accounts. No API keys to register. No telemetry. 
+No phoning home. Your data stays on your machine.
+
+MIT licensed: [link]
 ```
+
+---
+
+# DAY 4
+
+## Reddit (comment seeding)
+
+**Target subs:** r/LocalLLaMA, r/ChatGPTCoding, r/devops
+**Find:** Posts about LLM observability, monitoring, debugging AI
+**Add value first, mention tool naturally**
 
 ---
 
@@ -317,57 +357,90 @@ Screenshots of the dashboard in comments.
 
 ## Reddit r/ChatGPTCoding
 
-**Title:** 62% of my GPT-4o calls were a waste of money. Took me 2 minutes and one free tool to find out.
+**Title:** 62% of my GPT-4o calls were a waste of money. Took 5 minutes and a free tool to find out.
 
 **Body:**
 ```
-I was paying ~$200/month on OpenAI APIs. Thought that was 
-just the cost of building with AI.
+I was paying ~$200/month on OpenAI APIs. Assumed that 
+was the cost of building with AI.
 
-Then I set up tracking. Took 2 minutes:
+Then I installed an open-source gateway. Here's exactly 
+what I did:
+
+## Install (2 minutes)
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Changed one line in my app:
+## Connect your app (30 seconds)
+
+Change one line in your code:
 
   # before
-  client = OpenAI()
+  client = OpenAI(base_url="https://api.openai.com/v1")
   
   # after
   client = OpenAI(base_url="http://localhost:8080/v1")
 
-Ran for a week. Opened the dashboard at localhost:3000.
+That's the entire migration. Your app works the same. 
+But now every call gets tracked.
 
-The data was brutal:
+## Open the dashboard
 
-- 38% of calls were simple formatting/extraction.
-  GPT-4o: $2.50/M tokens.
-  DeepSeek does these identically: $0.14/M tokens.
+Go to localhost:3000. Run your app normally for a few days.
 
-- 24% were classification tasks.
-  GPT-4o: $2.50/M tokens.
-  Groq Llama 3.3: ~$0.05/M tokens, 10x faster.
+## What I saw after one week
 
-- My most expensive feature? A summarizer.
-  800 calls/day × $0.31 each = $248/month.
-  Switched to DeepSeek: $0.02/call = $16/month.
-  Same output. One line change:
+- 38% of calls were formatting/extraction tasks. 
+  GPT-4o is overkill for these. DeepSeek ($0.14/M) 
+  handles them identically.
 
-    model="openai/gpt-4o"          # $248/mo
-    model="deepseek/deepseek-chat" # $16/mo
+- 24% were classification tasks. Groq's Llama 3.3 
+  does these at near-zero cost, 10x faster.
 
-Total bill: ~$200 → ~$68. No code changes beyond model prefixes.
+- My most expensive feature: a summarizer running 
+  800x/day at $0.31/call ($248/mo). Same output 
+  on DeepSeek at $0.02/call ($16/mo).
 
-Every call is tracked: cost, tokens, latency, full prompt 
-and response. Searchable. Filterable.
+## How to switch models
 
-The tool is open-source, MIT licensed, self-hosted: [link]
+Once you know which calls are wasted, switching is 
+one word:
 
-Genuinely curious — has anyone else audited their API usage 
-like this? What did you find?
+  # expensive
+  response = client.chat.completions.create(
+      model="openai/gpt-4o",
+      messages=[...]
+  )
+
+  # 18x cheaper
+  response = client.chat.completions.create(
+      model="deepseek/deepseek-chat",
+      messages=[...]
+  )
+
+Same SDK. Same code. Same response format. The gateway 
+translates everything automatically.
+
+## Result
+
+~$200/mo → ~$68/mo. Same app. Same quality for the user.
+
+MIT licensed. Data stays local: [link]
+
+Has anyone else done this kind of audit? What did you find?
 ```
+
+---
+
+# DAY 6
+
+## Reddit (comment seeding)
+
+**Target subs:** r/LocalLLaMA, r/devops, r/artificial
+**Find:** Posts about API management, cost optimization, multi-provider
+**Share data points + real experience**
 
 ---
 
@@ -375,61 +448,132 @@ like this? What did you find?
 
 ## Reddit r/LocalLLaMA
 
-**Title:** I tracked 50k LLM calls and found out which models actually beat GPT-4o on my real prompts — not benchmarks, real production data
+**Title:** I tracked 50k LLM calls and found which models actually beat GPT-4o on my real prompts — not benchmarks
 
 **Body:**
 ```
-Benchmarks told me GPT-4o was the best for everything. 
-My production data said otherwise.
+Benchmarks told me GPT-4o was the best. My production 
+data told a different story.
 
-I routed 50k real calls through 13 providers using an 
-open-source gateway and scored every response.
+## How I tested
 
-How to do this yourself:
+I ran 50k production calls through 13 providers using 
+an open-source gateway that tracks everything. Then 
+scored every response with LLM-as-judge + similarity.
+
+Setup if you want to run your own:
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Point your app at localhost:8080. Run for a week. 
-Open the dashboard. Run evaluations.
+Point your app at localhost:8080. Run for a week or two. 
+The evaluation engine does the rest.
 
-My results:
+## Results on my real prompts
 
 Code generation (34% of my traffic):
-  GPT-4o:   8.7/10 quality — $4.20/1k calls
-  DeepSeek: 8.2/10 quality — $0.52/1k calls
-  → 94% of the quality at 12% of the cost
+- GPT-4o: 8.7/10 quality — $4.20/1k calls
+- DeepSeek: 8.2/10 — $0.52/1k calls
+- 94% of the quality at 12% of the cost
 
 Classification (22% of traffic):
-  All 3 models within 0.3 points of each other
-  GPT-4o: $4.20/1k calls
-  Groq:   $0.18/1k calls
-  → Same results. 23x price difference.
+- All models within 0.3 points of each other
+- GPT-4o: $4.20/1k calls
+- Groq Llama 3.3: $0.18/1k calls
+- Same results. 23x price difference.
 
-Content writing (19% of traffic):
-  Claude actually beat GPT-4o here. 8.9 vs 8.5.
-  No benchmark ever showed me this.
+Content writing (19%):
+- Claude beat GPT-4o: 8.9 vs 8.5
+- No public benchmark showed this
 
-Data extraction (18% of traffic):
-  DeepSeek won. Faster, cheaper, slightly better 
+Data extraction (18%):
+- DeepSeek won. Faster, cheaper, slightly better 
   at structured output.
 
-Other findings:
-- Latency varies 3x by time of day
-- Cheapest model was often the fastest
-- Semantic routing (auto-pick per prompt) saved 67%
+## Surprises
 
-Scored with LLM-as-judge + similarity metrics. Built-in 
-evaluation engine, 6 metrics. Not vibes. Data.
+- Latency varies 3x by time of day. Groq at 2am 
+  is a beast. Groq at 2pm EST crawls.
+- The cheapest model was often the fastest.
+- Semantic routing (auto-picking per prompt) saved 67%.
+- For classification, paying for GPT-4o is pure waste.
 
-Your results will be different. That's the whole point.
-Generic benchmarks don't know your use case.
+## How the eval engine works
 
-Tool is open-source (MIT): [link]
+The gateway stores every call with full input/output. 
+The evaluation engine then:
 
-Run your own evals on YOUR data.
+1. Takes a dataset of your real prompts
+2. Runs them through any models you want to compare
+3. Scores with built-in metrics (similarity, LLM-as-judge, 
+   exact match, latency, cost)
+4. Shows side-by-side results with a winner
+
+You can run this from the dashboard or the API:
+
+  POST /v1/evaluations
+  {
+    "dataset_id": "your-dataset",
+    "models": ["openai/gpt-4o", "deepseek/deepseek-chat"],
+    "metrics": ["llm-judge", "similarity", "cost"]
+  }
+
+## Key takeaway
+
+Your results will be different. That's the entire point. 
+Generic benchmarks don't tell you what works for YOUR 
+prompts. Run your own evals on your own data.
+
+MIT licensed: [link]
 ```
+
+## Hacker News (second Show HN)
+
+**Title:** Show HN: Real cost and quality data from routing 50k LLM calls through 13 providers
+
+**Body:**
+```
+I've been running an open-source LLM gateway in production 
+that tracks cost, latency and quality for every API call 
+across 13 providers.
+
+Key findings from 50k calls:
+
+- 62% of GPT-4o calls could run on models 10-20x cheaper 
+  with identical output quality
+- DeepSeek matched GPT-4o at 12% cost for code generation
+- For classification, all models scored within 0.3 points 
+  but the price gap was 23x
+- Claude beat GPT-4o on content writing (8.9 vs 8.5) — 
+  no public benchmark showed this
+- Semantic routing reduced total bill by 67%
+
+The gateway + eval engine is open-source (MIT):
+[link]
+
+Setup: git clone + make start-full. 
+Change your base_url to localhost:8080.
+
+Built-in evaluation engine runs your actual prompts 
+through any models and scores them with LLM-as-judge.
+
+Stack: Go gateway + ClickHouse + Python/FastAPI + React.
+```
+
+---
+
+# DAY 8
+
+## Reddit (comment seeding + engagement)
+
+**Go back to ALL previous posts:**
+- Reply to every new comment
+- Share updates: "Based on feedback, we shipped X"
+- Post star count milestone if relevant
+
+**Seed in:** r/MachineLearning, r/ChatGPTCoding
+**Topic:** model comparison, benchmarks vs real data
 
 ---
 
@@ -437,37 +581,37 @@ Run your own evals on YOUR data.
 
 ## Reddit r/devops
 
-**Title:** Added LLM observability to our stack with one line change. Found $200/mo in wasted API calls the first week.
+**Title:** Added LLM observability to our stack with one line change. Found $200/mo in wasted API calls in the first week.
 
 **Body:**
 ```
-We're running LLMs in production. Had zero visibility.
-No cost per feature. No way to debug bad responses.
-No latency tracking. Flying blind.
+We're running LLMs in production. Had zero visibility. 
+No cost-per-feature data. No way to debug bad responses.
 
-The fix took 2 minutes:
+## The fix
 
-Step 1 — start the observability stack:
+One line:
+  base_url = "http://localhost:8080/v1"
+
+That routes all calls through an open-source gateway 
+that logs everything.
+
+## Install
+
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-This gives you:
-  :8080 → Go gateway (sub-ms overhead, handles routing)
-  :3000 → React dashboard (trace explorer, filters, search)
-  :8000 → Python API (analytics, clustering, evaluations)
-  ClickHouse → stores every trace
+That gives you:
+- Go gateway (port 8080) — sub-ms overhead, handles 
+  50k+ calls/day on a $20 VPS
+- ClickHouse — stores every trace for analytical queries
+- React dashboard (port 3000) — filterable trace explorer
+- Python API (port 8000) — analytics, clustering, evals
 
-All in one docker compose. Runs on a single VPS.
+One Docker compose. Everything starts together.
 
-Step 2 — one line change:
-  base_url = "http://localhost:8080/v1"
-
-Your app thinks it's talking to OpenAI. The gateway 
-intercepts, logs, and forwards. Zero code changes 
-beyond that one line.
-
-What we found in week 1:
+## What we found in week 1
 
 - $200/mo going to GPT-4o for calls that don't need it
 - One feature making 800 calls/day at $0.31 each ($248/mo) 
@@ -475,23 +619,61 @@ What we found in week 1:
 - 3 features calling the API with nearly identical prompts 
   (consolidation opportunity)
 - P95 latency spikes correlating with specific providers 
-  at specific times of day
+  at specific times
 
-Every trace includes: model, tokens in/out, cost, latency, 
+## Dashboard capabilities
+
+Every trace shows: model, tokens in/out, cost, latency, 
 full prompt, full response. All searchable.
 
-I can type "show me every call over $0.10" or "show me 
-every call about refunds" and get instant results.
+Filters: by model, date range, cost range, latency.
+Search: full-text across all prompts and responses.
+Analytics: cost per model, per day, per feature.
 
-Resource usage: we do ~50k calls/day on a $20 VPS.
-For testing, a $5 VPS handles it fine.
+## Integration
 
-MIT licensed. No telemetry. Self-hosted.
+It's OpenAI-compatible. If your app uses the OpenAI SDK 
+(Python, Node, whatever), you just change the base_url. 
+Nothing else changes.
+
+Supports 13 providers with automatic format translation. 
+Anthropic's SSE, Bedrock's auth, Gemini's tool calling — 
+all translated to OpenAI-compatible format.
+
+MIT licensed. No telemetry: [link]
+
+What's everyone else using for LLM observability?
+```
+
+---
+
+# DAY 10
+
+## Reddit (engagement day)
+
+**Post update on Day 1 launch post:**
+```
+10-day update:
+
+- [X] GitHub stars
+- [X] issues opened and resolved
+- [X] community PRs merged
+- User-reported savings: $[X] across [X] teams
+
+Top feature requests:
+1. [feature]
+2. [feature]
+
+Shipping #1 this week.
+
+For anyone who hasn't tried it yet — 
+setup is still just 3 commands:
+
+git clone + cd + make start-full
+
+Change your base_url. Open localhost:3000.
 
 [link]
-
-What's everyone else using for LLM observability? 
-Curious how other teams are solving this.
 ```
 
 ---
@@ -500,68 +682,83 @@ Curious how other teams are solving this.
 
 ## Reddit r/LocalLLaMA
 
-**Title:** Switched my app's base_url from api.openai.com to localhost — here's exactly what I can see now for every single call
+**Title:** I changed one URL in my app and now I see every LLM call — model, cost, full prompt, full response. Searchable.
 
 **Body:**
 ```
-People keep asking what the dashboard actually shows you.
-Here's a complete walkthrough.
+People keep asking what the dashboard actually shows. 
+Here's a full walkthrough.
 
-The change (your entire migration):
+## The change
 
-  client = OpenAI(base_url="http://localhost:8080/v1")
+  base_url = "http://localhost:8080/v1"
 
-That's it. Everything else stays the same.
+That's it. Same OpenAI SDK. Same code.
 
-What I see now for EVERY call:
+## What you see for every call
 
-  Model:    openai/gpt-4o
-  Tokens:   847 in / 234 out
-  Cost:     $0.0043
-  Latency:  1,847ms (312ms to first token)
-  Prompt:   [full text, searchable]
-  Response: [full text, searchable]
+Open localhost:3000 after running your app:
 
-All 14,000+ calls from the last week. Searchable.
+1. Model used (openai/gpt-4o, deepseek/deepseek-chat, etc)
+2. Tokens: input and output count
+3. Cost: exact dollar amount ($0.0043 for this call)
+4. Latency: total ms, time to first token
+5. Full prompt: every word you sent
+6. Full response: every word the model returned
+7. Timestamp, session ID, metadata
 
-Example searches I actually use:
-- "refund" → every call where a user mentioned refunds
-- Cost > $0.10 → find my expensive calls
-- Model = deepseek → filter by provider
-- Last 24 hours → recent activity only
+## Search
 
-Click any trace → full detail drawer with the complete 
-conversation, metadata, timing breakdown.
+This is the feature nobody talks about.
 
-But the feature nobody talks about:
+Type "refund" in the search bar → see every single call 
+where a user mentioned refunds. With the model's response. 
+With the cost.
 
-After a few thousand calls, the clustering pipeline runs 
-automatically. It groups your prompts by semantic similarity 
-using MiniLM embeddings + KMeans.
+Type "error" → see every call where the response 
+mentioned an error. Debug in seconds.
 
-Mine found:
-  Code generation:  34% of traffic
-  Data extraction:  28%
-  Content writing:  19%
-  Classification:   12%
-  Other:             7%
+## Filters
 
-I didn't configure this. I didn't label anything.
-It just analyzed my traffic and found the patterns.
+- By model: "show me only DeepSeek calls"
+- By date: "last 24 hours"
+- By cost: "calls over $0.10"
+- By latency: "calls over 3 seconds"
 
-Each cluster = a clean dataset of real input/output pairs.
-Ready for fine-tuning whenever I want.
+Click any trace → full detail drawer with 
+everything in one view.
 
-Setup:
+## The clustering bonus
+
+After a few thousand calls, it auto-clusters your 
+prompts by semantic similarity.
+
+I didn't configure anything. It just showed me:
+"35% of your traffic is code generation, 22% is 
+classification, 18% is extraction."
+
+Each cluster is a dataset. Ready for fine-tuning.
+
+## Install
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-13 providers. MIT licensed. Self-hosted. 2 minutes.
+Change your base_url. Open localhost:3000. That's it.
 
-[link]
+13 providers. MIT. Self-hosted: [link]
 ```
+
+---
+
+# DAY 12
+
+## Reddit (comment seeding)
+
+**Target subs:** r/ChatGPTCoding, r/artificial, r/selfhosted
+**Find:** Posts about "which model", "cheapest API", "reduce AI costs"
+**Lead with data, teach the install naturally**
 
 ---
 
@@ -569,55 +766,148 @@ Setup:
 
 ## Reddit r/artificial
 
-**Title:** Companies spent $8.4B on LLM APIs last year. I found that most can't even answer "which feature costs the most?"
+**Title:** Companies spent $8.4B on LLM APIs last year. Most can't tell you where the money goes. I built a free tool to fix that.
 
 **Body:**
 ```
 Some stats:
 
 - LLM API spending: $500M → $8.4B in 18 months
-- 72% of orgs expect even higher spending in 2026
-- Nearly 40% spend over $250K/year on LLMs
-- Price gap between cheapest and most expensive: 1,000x
-  ($0.02/M tokens vs $375/M tokens)
+- 72% of orgs expect higher spending in 2026
+- 40% spend over $250K/year on LLMs
+- Price gap: 1,000x ($0.02/M → $375/M tokens)
 
-And yet most teams I talk to can't answer one simple 
-question: "which feature in your app costs the most?"
+And most teams can't answer: "which feature costs the most?"
 
-I couldn't either. So I built a way to find out.
+## The pattern I see every time
 
-Setup is embarrassingly simple:
+Someone installs the tool, runs it for a week, and 
+discovers 40-60% of their calls don't need a premium model.
+
+One team found a summarizer burning $248/mo on GPT-4o. 
+Same output on DeepSeek for $16/mo. One feature. $232 saved.
+
+## How to find YOUR waste (5 minutes)
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Change one line in your app:
+Then change one line in your app:
+
   base_url = "http://localhost:8080/v1"
 
-Every LLM call now gets tracked automatically. Open 
-localhost:3000 and you see: model, cost, tokens, latency, 
-full prompt/response. Searchable.
+Open localhost:3000. That's your cost dashboard. 
+Every call tracked automatically.
 
-The pattern I see every time someone sets this up:
+## Switching to a cheaper model
 
-- 40-60% of calls don't need a premium model
-- The most expensive feature is always a surprise
-- Simple routing rules cut the bill in half
+When you find calls that don't need GPT-4o:
 
-One person found a summarizer burning $248/mo on GPT-4o 
-(800 calls/day × $0.31). Same quality on DeepSeek: $16/mo.
-$232/mo saved. One feature. One line change:
+  model="openai/gpt-4o"          → $2.50/M (expensive)
+  model="deepseek/deepseek-chat" → $0.14/M (18x cheaper)
+  model="groq/llama-3.3-70b"     → $0.05/M (50x cheaper)
 
-  model="deepseek/deepseek-chat"  # instead of openai/gpt-4o
+Same SDK. Same code. One word change.
 
-The tool is open-source, MIT licensed, self-hosted.
-13 providers. Your data stays on your machine.
+13 providers supported. MIT licensed. Self-hosted.
+No accounts. No telemetry. Data stays local.
 
 [link]
 
-Is anyone here tracking LLM costs systematically? 
-What are you using?
+Anyone here tracking LLM costs systematically?
+```
+
+## Dev.to (second blog post)
+
+**Title:** The hidden cost monster in your AI app (and how to find it in 5 minutes)
+
+**Body:**
+```
+## The $248/month summarizer
+
+A team I work with had a simple text summarizer. 
+Nothing fancy. Condense a paragraph into a sentence.
+
+800 API calls per day to GPT-4o. $0.31 per call. 
+$248 per month. On ONE feature. Nobody knew.
+
+Switched to DeepSeek. $0.02 per call. Same output. 
+$16/month. Savings: $232/month from one line change.
+
+## You probably have the same problem
+
+If your app calls LLM APIs, I guarantee you have 
+features on expensive models that don't need them.
+
+## How to find out (5 minutes, free)
+
+### Step 1: Install the gateway
+
+  git clone https://github.com/lunar-org-ai/lunar-router
+  cd lunar-router
+  make start-full
+
+### Step 2: Point your app at it
+
+  base_url = "http://localhost:8080/v1"
+
+### Step 3: Wait a few days
+
+### Step 4: Open localhost:3000
+
+Every API call with exact cost. Search by keyword. 
+Filter by model, cost, date. The data tells you 
+which features are burning money.
+
+### Step 5: Switch the expensive calls
+
+  model="openai/gpt-4o"          → $2.50/M
+  model="deepseek/deepseek-chat" → $0.14/M
+
+Same line. Same SDK. 18x cheaper.
+
+## Real results
+
+Teams find 40-60% of calls don't need premium. 
+Average savings: 60-80%.
+
+Open-source. MIT. Self-hosted. No telemetry.
+
+GitHub: [link]
+
+---
+
+Tags: #llm #ai #openai #costoptimization #devtools
+```
+
+---
+
+# DAY 14
+
+## Reddit (engagement day — week 2 recap)
+
+**Update on Day 1 post:**
+```
+2-week update:
+
+⭐ [X] GitHub stars
+🌍 Users in [X] countries
+💰 User-reported savings: $[X]
+🔧 [X] community PRs merged
+
+Most-loved features:
+1. One-line migration (base_url change)
+2. Full-text search across all traces
+3. Automatic prompt clustering
+
+Coming next: [roadmap]
+
+If you haven't tried it:
+git clone + cd + make start-full
+Change base_url. Open localhost:3000.
+
+[link]
 ```
 
 ---
@@ -626,58 +916,75 @@ What are you using?
 
 ## Reddit r/LocalLLaMA
 
-**Title:** After 10k API calls, a clustering algorithm found 5 use cases in my traffic I didn't know existed — each one is now a fine-tuning dataset I got for free
+**Title:** After 10k API calls, a clustering algorithm found 5 use cases in my traffic I didn't know existed — each one is now a fine-tuning dataset
 
 **Body:**
 ```
 I set up Lunar Router to track costs. But it does 
-something else I didn't expect.
+something I didn't expect: it clusters your prompts 
+by semantic similarity automatically.
 
-It clusters your prompts by semantic similarity. 
-Automatically. No configuration.
+After ~10k calls, it grouped my traffic into:
 
-After ~10k calls, it grouped my traffic into 5 clusters:
+- Code generation (34%) — 3,400 prompt-response pairs
+- Data extraction (28%) — 2,800 pairs
+- Content writing (19%) — 1,900 pairs
+- Classification (12%) — 1,200 pairs
+- Other (7%) — 700 pairs
 
-  Code generation:  34% — 3,400 prompt-response pairs
-  Data extraction:  28% — 2,800 pairs
-  Content writing:  19% — 1,900 pairs
-  Classification:   12% — 1,200 pairs
-  Other:             7% — 700 pairs
+I never told it my app had 5 use cases. It found them.
+
+## Why this matters
 
 Each cluster is a clean dataset of real input/output pairs. 
-My actual users. My actual tasks. My actual quality bar.
+YOUR users, YOUR tasks, YOUR quality bar.
 
-Quality gates clean it up automatically:
-- Coherence scoring removed 2 garbage clusters
-- Outlier detection removed ~400 bad examples
-- AI agent labeled each cluster ("Code Generation", etc.)
+Research says 100-500 quality examples for LoRA. 
+Production traffic gives you thousands.
 
-I took the code generation cluster (3,400 pairs) and 
-fine-tuned a 7B model with LoRA.
+## What I did with it
 
-Result: matches GPT-4o quality for that specific task.
-Cost: 1/50th.
+Took the largest cluster (3,400 pairs). Quality gates 
+filtered to ~2,800 clean examples. Fine-tuned 7B model.
 
-Research says 100-500 quality examples is enough for 
-straightforward tasks. Production traffic gives you 
-thousands — pre-filtered, domain-specific, real pairs.
+Result: matches GPT-4o quality for that task. Cost: 1/50th.
 
-How to get this:
+## How the clustering works
+
+1. Gateway captures every call with full I/O
+2. MiniLM embeddings encode each prompt
+3. KMeans clusters by semantic similarity
+4. AI agent labels each cluster automatically
+5. Quality gates: coherence scoring, outlier detection
+6. Clean pairs exported per cluster
+
+## Try it
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Point your app at localhost:8080. Let it run. The clustering 
-happens automatically after enough calls accumulate.
+Point app at localhost:8080. Run for a week. Then:
 
-Your traffic patterns will be different than mine. 
-That's the entire point — it finds YOUR use cases.
+  POST /v1/clustering/run
+  GET /v1/clustering/datasets
+
+Each dataset has clean pairs ready to export.
 
 MIT licensed: [link]
 
-Anyone else building production-to-fine-tuning pipelines?
+Anyone else doing production-to-fine-tuning?
 ```
+
+---
+
+# DAY 16
+
+## Reddit (comment seeding)
+
+**Target subs:** r/LocalLLaMA, r/MachineLearning
+**Find:** Posts about fine-tuning, LoRA, distillation
+**Share clustering approach with install steps**
 
 ---
 
@@ -685,65 +992,100 @@ Anyone else building production-to-fine-tuning pipelines?
 
 ## Reddit r/MachineLearning
 
-**Title:** I fine-tuned a 7B model on production data my gateway captured automatically — it handles 80% of one use case at 1/50th the cost of GPT-4o
+**Title:** I fine-tuned a 7B model on production data my gateway captured automatically. It handles 80% of traffic at 1/50th the cost.
 
 **Body:**
 ```
-Sharing a pipeline that turns production LLM traffic into 
-fine-tuning datasets with zero manual work.
+Pipeline that turns production LLM traffic into 
+fine-tuning datasets without manual work.
 
-The problem: we all call GPT-4o for everything, pay premium 
-prices, and discard the most valuable training data we'll 
-ever have — our own users' real inputs and outputs.
+## The problem
 
-The pipeline:
+We call GPT-4o for everything and discard the most 
+valuable training data we'll ever have.
 
-1. Go gateway captures every API call with full I/O content
-   (setup: git clone + make start-full + change base_url)
+## The pipeline
 
+1. Go gateway captures every API call with full I/O
 2. MiniLM embeddings encode each prompt
-
-3. KMeans clusters prompts by semantic similarity
-
-4. LLM agent auto-labels each cluster 
-   ("Code Generation", "Data Extraction", etc.)
-
-5. Quality gates: coherence scoring removes garbage clusters, 
-   outlier detection removes bad examples
-
+3. KMeans clusters by semantic similarity
+4. LLM agent auto-labels each cluster
+5. Quality gates: coherence scoring, outlier detection
 6. Clean input/output pairs exported per cluster
 
-Results from 50k captured calls:
+## Results from 50k calls
+
 - 5 distinct clusters identified automatically
-- ~8k high-quality pairs after quality filtering
-- Fine-tuned Llama 7B with LoRA on the largest cluster
+- ~8k high-quality pairs after filtering
+- Fine-tuned Llama 7B with LoRA on largest cluster
 - Task-specific quality matched GPT-4o
 - Inference cost: 1/50th
 
-The research supports this:
-- 100-500 quality examples with LoRA is often enough 
-  for straightforward tasks (Particula, 2026)
-- TensorZero reports 5-30x cheaper inference with 
-  distilled models from production data
-- Our numbers are consistent with both
+TensorZero reports 5-30x cheaper inference with 
+distilled models. Our numbers are consistent.
 
-The endgame:
-  Year 1 → pay full price for GPT-4o
-  Year 1.5 → capture and cluster all traffic
-  Year 2 → fine-tune your own model
-  Year 2+ → 80% of traffic at 1/50th the cost
-
-The whole pipeline is open-source (MIT):
+## Setup
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-[link]
+Point app at localhost:8080. Accumulate calls. Then:
 
-The barrier isn't the tooling anymore. It's whether 
-you're capturing the data.
+  POST /v1/clustering/run
+  GET /v1/clustering/datasets
+  GET /v1/datasets/{id}/samples
+
+Feed into your fine-tuning pipeline.
+
+## The endgame
+
+Year 1: pay full price
+Year 1.5: capture and cluster traffic
+Year 2: fine-tune your own model
+Year 2+: 80% of traffic at 1/50th cost
+
+MIT licensed (Go + Python + React): [link]
 ```
+
+## Hacker News (third Show HN)
+
+**Title:** Show HN: Automated pipeline from production LLM traces to fine-tuning datasets (open-source)
+
+**Body:**
+```
+After building Lunar Router (LLM gateway, Show HN'd 
+2 weeks ago), the most surprising feature turned out 
+to be automatic prompt clustering.
+
+Gateway captures every API call with full I/O. After 
+~10k calls, semantic clustering automatically groups 
+prompts by use case and creates clean datasets.
+
+50k calls → 5 clusters → 8k quality pairs → 
+fine-tuned 7B → matches GPT-4o on task → 1/50th cost.
+
+Fully automated: quality gates, coherence scoring, 
+outlier detection, auto-labeling.
+
+Setup: git clone + make start-full + point base_url.
+
+  POST /v1/clustering/run
+  GET /v1/clustering/datasets
+  POST /v1/evaluations
+
+MIT licensed: [link]
+```
+
+---
+
+# DAY 18
+
+## Reddit (comment seeding)
+
+**Target subs:** r/LocalLLaMA, r/ChatGPTCoding
+**Find:** Posts about evaluation, model quality, LLM testing
+**Share eval engine + install steps**
 
 ---
 
@@ -751,282 +1093,139 @@ you're capturing the data.
 
 ## Reddit r/ChatGPTCoding
 
-**Title:** I compared GPT-4o, DeepSeek and Groq on 15k real production prompts — benchmarks were wrong about my use case
+**Title:** Benchmarks said GPT-4o wins at classification. My production data says it's 23x overpriced for the same results.
 
 **Body:**
 ```
-Instead of trusting public benchmarks, I ran my own 
-evaluation on my actual production prompts.
+Instead of trusting leaderboards, I ran my own eval 
+on 15k real prompts from my app.
 
-Setup (if you want to do the same):
+## How to run your own eval
 
   git clone https://github.com/lunar-org-ai/lunar-router
   cd lunar-router
   make start-full
 
-Point your app at localhost:8080. Capture traffic for 
-1-2 weeks. Then use the built-in evaluation engine 
-to compare models.
+Point app at localhost:8080. Let it run for a week. Then:
 
-My results from 15k calls:
+  POST /v1/evaluations
+  {
+    "dataset_id": "your-captured-data",
+    "models": ["openai/gpt-4o", "deepseek/deepseek-chat", 
+               "groq/llama-3.3-70b-versatile"],
+    "metrics": ["llm-judge", "similarity", "cost", "latency"]
+  }
 
-Code generation (34% of traffic):
-  GPT-4o:   8.7/10 quality — $4.20/1k calls
-  DeepSeek: 8.2/10 quality — $0.52/1k calls
-  Groq:     7.8/10 quality — $0.18/1k calls
+Runs your actual prompts through all models. 
+Scores everything automatically.
 
-  → DeepSeek: 94% quality at 12% cost.
+## My results
 
-Classification (22% of traffic):
-  All models within 0.3 points of each other.
-  GPT-4o: $4.20/1k calls
-  Groq:   $0.18/1k calls
+Code generation (34%):
+- GPT-4o: 8.7/10 — $4.20/1k calls
+- DeepSeek: 8.2/10 — $0.52/1k calls
+- 94% quality. 12% cost.
 
-  → Same quality. 23x price difference. Pure waste.
+Classification (22%):
+- All models within 0.3 points
+- GPT-4o: $4.20 vs Groq: $0.18/1k calls
+- 23x price difference. Same results.
 
 Content writing (19%):
-  Claude: 8.9/10
-  GPT-4o: 8.5/10
+- Claude: 8.9 vs GPT-4o: 8.5
+- No benchmark showed this
 
-  → Claude beat GPT-4o. No benchmark showed me this.
+## Key insight
 
-Data extraction (18%):
-  DeepSeek won. Faster + cheaper + slightly better 
-  at structured output.
+For classification, paying GPT-4o prices is pure waste. 
+I did this for 6 months without knowing.
 
-How the evaluation works:
-- Built-in metrics: exact match, similarity, LLM-as-judge, 
-  latency, cost
-- Run the same dataset through multiple models
-- Side-by-side results with scores
-- All automated
-
-The biggest lesson: for classification tasks, I was 
-paying GPT-4o prices for 6 months. Same results on 
-Groq at 1/23rd the cost. I had no idea.
-
-Your results WILL be different. That's the point. 
 MMLU doesn't know your prompts. Run your own evals.
 
-Tool is open-source (MIT): [link]
+Built-in metrics: exact match, contains, similarity, 
+LLM-as-judge, latency, cost.
+
+MIT licensed: [link]
 ```
 
 ---
 
-# COMMENT SEEDING TEMPLATES (Days 2, 4, 6, 8, 12, 16, 18)
+# DAY 20
 
-Use these when you find relevant posts in target subreddits.
+## Reddit (final recap)
 
-## Template 1 — Cost discussion
-
-**When someone asks about LLM API costs:**
+**Update on Day 1 post:**
 ```
-I tracked every single API call for a month. Found that 
-62% of my GPT-4o calls could've run on DeepSeek at 
-$0.14/M tokens instead of $2.50/M.
+20-day update:
 
-The setup was stupid simple — open-source gateway that 
-sits between your app and the API. One line change. 
-Every call tracked automatically with cost data.
+⭐ [X] GitHub stars
+👥 [X] contributors
+🌍 [X] countries
+💰 $[X] in user-reported savings
 
-Ended up cutting my bill from $420 to $73/mo.
+What we shipped from community feedback:
+- [feature 1]
+- [feature 2]
+- [feature 3]
 
-[link] if you want to try it. 3 commands to set up.
-```
+If you haven't tried it:
 
-## Template 2 — Model comparison
+  git clone https://github.com/lunar-org-ai/lunar-router
+  cd lunar-router
+  make start-full
 
-**When someone asks "which model should I use?":**
-```
-Honest answer: it depends on your specific prompts.
+Change base_url. Open localhost:3000. 5 minutes.
 
-I ran my own evaluation — 15k production calls through 
-GPT-4o, DeepSeek, and Groq. Results were completely 
-different from public benchmarks.
-
-For classification: all models scored within 0.3 points. 
-GPT-4o was $4.20/1k calls. Groq was $0.18/1k.
-
-For content writing: Claude actually beat GPT-4o.
-
-The only reliable way to know is to test on YOUR data.
-
-I used this open-source eval tool: [link]
-Captures your traffic, runs it through multiple models, 
-scores automatically.
+What should we build next? [link]
 ```
 
-## Template 3 — Observability
-
-**When someone discusses LLM debugging/monitoring:**
-```
-We had the same problem. Zero visibility into what our 
-LLM calls were actually doing.
-
-Set up an open-source gateway — one line change in the 
-app (base_url to localhost:8080). Every call now gets 
-logged with full prompt/response, cost, latency.
-
-The search is the killer feature. "Show me every call 
-where a user asked about pricing" → instant results 
-with cost attached.
-
-Found $200/mo in waste the first week.
-
-3 commands to set up, runs on a $5 VPS: [link]
-```
-
-## Template 4 — Fine-tuning / training data
-
-**When someone discusses fine-tuning or distillation:**
-```
-Something I discovered by accident: if you route your 
-LLM calls through a gateway that captures full I/O, 
-after a few thousand calls you have a production-grade 
-training dataset.
-
-A clustering pipeline groups your prompts by semantic 
-similarity automatically. Mine found 5 distinct use 
-cases in my traffic without any configuration.
-
-Fine-tuned a 7B model on the biggest cluster (3,400 pairs). 
-Handles that use case at 1/50th the cost of GPT-4o.
-
-You need 100-500 quality examples for LoRA. Production 
-traffic gives you thousands, pre-filtered and domain-specific.
-
-The pipeline is open-source: [link]
-```
-
-## Template 5 — Provider switching
-
-**When someone asks about switching from OpenAI:**
-```
-Made this way easier by using a gateway proxy. 
-One line change in my app, then switching providers 
-is just a different model prefix:
-
-  model="openai/gpt-4o"          → OpenAI
-  model="deepseek/deepseek-chat" → DeepSeek (18x cheaper)
-  model="groq/llama-3.3-70b"    → Groq (nearly free)
-
-Same SDK, same code, same response format.
-The gateway translates everything — streaming, 
-tool calling, vision, even Anthropic's weird SSE format.
-
-Open-source: [link]
-```
+**Update on HN posts with same format**
+**Seed 2-3 relevant posts across target subs**
 
 ---
 
-# AWESOME-LIST SUBMISSIONS (Day 3+)
+# POSTING SUMMARY
 
-Submit to these lists for permanent, slow-drip stars:
+| Day | Platform | Hook |
+|-----|----------|------|
+| 1 | r/LocalLLaMA + HN + Dev.to | $420 → $73, 3 commands |
+| 2 | Comment seeding | - |
+| 3 | r/selfhosted | $347/mo waste, 3 commands |
+| 4 | Comment seeding | - |
+| 5 | r/ChatGPTCoding | 62% waste, 5 min setup |
+| 6 | Comment seeding | - |
+| 7 | r/LocalLLaMA + HN | 50k calls, benchmarks wrong |
+| 8 | Comment seeding | - |
+| 9 | r/devops | $200/mo waste, one line |
+| 10 | Engagement | 10-day recap |
+| 11 | r/LocalLLaMA | Full dashboard tour |
+| 12 | Comment seeding | - |
+| 13 | r/artificial + Dev.to | $8.4B blind spending |
+| 14 | Engagement | 2-week recap |
+| 15 | r/LocalLLaMA | 5 datasets auto-found |
+| 16 | Comment seeding | - |
+| 17 | r/MachineLearning + HN | 7B model 1/50th cost |
+| 18 | Comment seeding | - |
+| 19 | r/ChatGPTCoding | 23x overpriced, same results |
+| 20 | Final recap | 20-day results |
 
-- awesome-llm
-- awesome-selfhosted
-- awesome-go
-- awesome-python
-- awesome-devtools
-- awesome-open-source
-
-**PR format:**
-```
-- [Lunar Router](https://github.com/lunar-org-ai/lunar-router) - 
-  Open-source LLM gateway with cost tracking, semantic clustering, 
-  and fine-tuning data preparation. Routes to 13 providers. MIT.
-```
-
-Read each list's contribution guidelines first.
-Open issue before PR if they require it.
-Be patient — acceptance takes days to months.
-
----
-
-# PRODUCT HUNT (Day 1, Hour 3)
-
-**Tagline:** Cut your LLM API costs by 60-80%. Track every token. Prepare training data automatically.
-
-**Description:**
-```
-I was spending $420/month on LLM APIs with zero visibility.
-
-Lunar Router is an open-source gateway that sits between 
-your app and 13 LLM providers. One line change to set up.
-
-What it does:
-→ Tracks every API call: cost, tokens, latency, full content
-→ Dashboard with search and filters
-→ Auto-clusters prompts by semantic similarity
-→ Prepares fine-tuning datasets automatically
-→ Built-in evaluation engine (6 metrics + LLM-as-judge)
-
-Setup: git clone + make start-full (2 minutes)
-Migration: change base_url to localhost:8080 (1 line)
-
-Result: $420/mo → $73/mo. Same app. Same quality.
-
-MIT licensed. Self-hosted. Your data stays on your machine.
-```
-
-**First comment (post yourself immediately):**
-```
-Hey! I'm [name], the creator.
-
-Quick story: I was paying OpenAI $420/month and had no 
-idea which feature was costing what. After building this 
-and tracking every call for a week, I found 62% of my 
-calls didn't need GPT-4o.
-
-Happy to answer any questions about the project, the 
-architecture, or how routing/clustering works.
-```
-
----
-
-# POST SCHEDULE
-
-| Day | Platform | Type | Hook |
-|-----|----------|------|------|
-| 1 | r/LocalLLaMA | Launch | "$420 → $73 by routing to cheapest model" |
-| 1 | Hacker News | Show HN | "Cut LLM costs 67% with auto-routing" |
-| 1 | Product Hunt | Launch | "Cut costs 60-80%. Track every token." |
-| 1 | Dev.to | Blog | "From $420 to $73 with 3 commands" |
-| 2 | All subs | Comment seeding | Cost discussion template |
-| 3 | r/selfhosted | Post | "Found $347/mo waste with one-command dashboard" |
-| 4 | All subs | Comment seeding | Model comparison template |
-| 5 | r/ChatGPTCoding | Post | "62% of GPT-4o calls were waste" |
-| 6 | All subs | Comment seeding | Observability template |
-| 7 | r/LocalLLaMA | Post | "Tracked 50k calls, benchmarks were wrong" |
-| 8 | All subs | Comment seeding + replies | Fine-tuning template |
-| 9 | r/devops | Post | "$200/mo waste found in week 1" |
-| 10 | All posts | Engagement day | Reply to everything |
-| 11 | r/LocalLLaMA | Post | "What I see for every call now" |
-| 12 | All subs | Comment seeding | Provider switching template |
-| 13 | r/artificial | Post | "$8.4B spent, most can't track it" |
-| 14 | All posts | Engagement day | Week 2 update |
-| 15 | r/LocalLLaMA | Post | "Clustering found 5 use cases I didn't know" |
-| 16 | All subs | Comment seeding | Fine-tuning template |
-| 17 | r/MachineLearning | Post | "Fine-tuned 7B from production data" |
-| 18 | All subs | Comment seeding | Cost + eval templates |
-| 19 | r/ChatGPTCoding | Post | "Benchmarks were wrong about my use case" |
-| 20 | All posts | Recap + update | Star count + community wins |
-
-**Also submit (Day 3+):**
-- 6+ awesome-lists
-- Hacker News second post (Day 10 or 14 if first one didn't hit)
+**Totals:**
+- Reddit: 10 posts across 6 subreddits
+- Hacker News: 3 Show HN posts
+- Dev.to: 2 blog posts
+- Comment seeding: 10 days
 
 ---
 
 # RULES
 
-1. Every Reddit title = RESULT + number. Never product description.
-2. Every post includes setup steps (git clone + make start-full + base_url change).
-3. Setup must look easy. 3 commands + 1 line. Always show the exact code.
-4. Product name NOT in Reddit title. Story first. Link in body.
-5. Reply to EVERY comment in first 3 hours. Non-negotiable.
-6. Screenshots in comments on every post (dashboard, traces, clusters).
-7. End every post with a QUESTION to drive comments.
-8. Tone: dev explaining to other devs. Not marketing. Not corporate.
-9. Be honest about limitations when asked. Reddit destroys marketing.
-10. Day 1 is a coordinated blitz. All platforms within 4 hours.
+1. Every title = RESULT with $ amount
+2. Every post teaches the install (3 commands + 1 line change)
+3. Install feels effortless: "5 minutes", "3 commands", "one line"
+4. Code blocks copy-pasteable
+5. Product name NOT in Reddit titles
+6. Reply to EVERY comment in first 3 hours
+7. End every post with a question (drives comments)
+8. Show API endpoints when relevant
+9. Each post = different angle, same install simplicity
+10. Never explain what it IS. Show what it DID.
